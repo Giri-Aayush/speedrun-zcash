@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Button } from '@heroui/react';
 import { ShieldGlyph } from './ShieldGlyph';
 
 /**
@@ -52,17 +53,18 @@ export function Notice({
         </a>
       )}
 
-      <button
-        type="button"
+      <Button
+        isIconOnly
+        size="sm"
+        variant="ghost"
         aria-label="Dismiss notice"
-        className="notice-close"
-        onClick={() => {
+        onPress={() => {
           localStorage.setItem(storageKey, '1');
           setState('dismissed');
         }}
       >
         ✕
-      </button>
+      </Button>
     </div>
   );
 }

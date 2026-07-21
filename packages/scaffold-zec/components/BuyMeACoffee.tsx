@@ -83,9 +83,11 @@ export function BuyMeACoffee() {
   return (
     <Modal>
       <Modal.Trigger>
-        <button type="button" className="meta hover:text-[var(--accent)]">
+        {/* Pulled left by the button's own padding so the label sits flush
+            with the copyright lines above it. */}
+        <Button size="sm" variant="ghost" className="-ml-3">
           ☕ Buy me a coffee
-        </button>
+        </Button>
       </Modal.Trigger>
 
       <Modal.Backdrop>

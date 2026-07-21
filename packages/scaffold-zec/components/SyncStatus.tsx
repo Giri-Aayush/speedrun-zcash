@@ -52,7 +52,7 @@ export function SyncStatus() {
           variant="outline"
           className="ml-auto"
           onPress={triggerSync}
-          isDisabled={syncing}
+          isPending={syncing}
         >
           Sync
         </Button>

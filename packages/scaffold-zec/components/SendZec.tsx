@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, Input, ProgressBar } from '@heroui/react';
+import { Button, Card, Input, ProgressBar, Spinner } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { zecToZats } from '../lib/zec';
 
@@ -51,12 +51,21 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
         />
 
         <div className="flex flex-wrap items-center gap-3">
+          {/* isPending rather than isDisabled: it marks the button busy for
+              assistive tech and blocks presses, instead of looking merely
+              unavailable through a thirty-second wait. */}
           <Button
             variant="primary"
             onPress={onSend}
-            isDisabled={sending || !to.trim() || !amount || spendable === 0}
+            isPending={sending}
+            isDisabled={!to.trim() || !amount || spendable === 0}
           >
-            {sending ? 'Building proof…' : 'Send'}
+            {({ isPending }) => (
+              <>
+                {isPending && <Spinner color="current" size="sm" />}
+                {isPending ? 'Building proof…' : 'Send'}
+              </>
+            )}
           </Button>
           {!sending && spendable === 0 && (
             <span className="hint">Nothing spendable yet.</span>

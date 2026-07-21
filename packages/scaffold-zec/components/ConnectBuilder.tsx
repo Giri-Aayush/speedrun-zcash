@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@heroui/react';
+import { Button, Spinner } from '@heroui/react';
 import { useBuilder } from '../lib/BuilderProvider';
 
 export function ConnectBuilder() {
@@ -43,9 +43,15 @@ export function ConnectBuilder() {
           size="sm"
           variant="primary"
           onPress={connect}
-          isDisabled={!canConnect || connecting}
+          isPending={connecting}
+          isDisabled={!canConnect}
         >
-          {connecting ? 'Connecting…' : 'Connect wallet'}
+          {({ isPending }) => (
+            <>
+              {isPending && <Spinner color="current" size="sm" />}
+              {isPending ? 'Connecting…' : 'Connect wallet'}
+            </>
+          )}
         </Button>
         {!canConnect && (
           <span className="hint">Create a wallet below first.</span>

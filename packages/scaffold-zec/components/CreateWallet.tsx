@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, TextArea } from '@heroui/react';
+import { Button, Card, Spinner, TextArea } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 
 export function CreateWallet() {
@@ -52,8 +52,13 @@ export function CreateWallet() {
               means nothing can recover them for you.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button variant="primary" onPress={onCreate} isDisabled={busy}>
-                {busy ? 'Generating…' : 'Create new wallet'}
+              <Button variant="primary" onPress={onCreate} isPending={busy}>
+                {({ isPending }) => (
+                  <>
+                    {isPending && <Spinner color="current" size="sm" />}
+                    {isPending ? 'Generating…' : 'Create new wallet'}
+                  </>
+                )}
               </Button>
               <Button variant="outline" onPress={() => setMode('restore')}>
                 Restore from seed
@@ -103,9 +108,15 @@ export function CreateWallet() {
               <Button
                 variant="primary"
                 onPress={onRestore}
-                isDisabled={busy || !seed.trim()}
+                isPending={busy}
+                isDisabled={!seed.trim()}
               >
-                {busy ? 'Restoring…' : 'Restore wallet'}
+                {({ isPending }) => (
+                  <>
+                    {isPending && <Spinner color="current" size="sm" />}
+                    {isPending ? 'Restoring…' : 'Restore wallet'}
+                  </>
+                )}
               </Button>
               <Button variant="outline" onPress={() => setMode('choose')}>
                 Back
