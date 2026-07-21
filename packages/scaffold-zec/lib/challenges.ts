@@ -562,7 +562,7 @@ export const challenges: Challenge[] = [
     title: 'Notes, Nullifiers & Proofs',
     tagline:
       'Open the hood at last: how encrypted notes, nullifiers, and zero-knowledge proofs combine into a shielded spend.',
-    status: 'soon',
+    status: 'live',
     level: 'protocol',
     skills: ['Note commitments', 'Nullifiers', 'Zero-knowledge proofs'],
     codebase: {
