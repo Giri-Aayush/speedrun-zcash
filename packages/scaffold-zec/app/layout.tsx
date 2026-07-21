@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import './globals.css';
 import { display, sans, mono } from './fonts';
 import { Providers } from '../components/Providers';
 import { Footer } from '../components/Footer';
+import { CookieConsent } from '../components/CookieConsent';
+import { Analytics } from '../components/Analytics';
+import { AnimatedNav } from '../components/AnimatedNav';
 
 export const metadata: Metadata = {
   title: 'Speedrun Zcash',
   description:
-    'Learn to build privacy apps on Zcash through numbered challenges, with a real shielded wallet running in your browser.',
+    'An interactive journey into the Zcash ecosystem — start with zero crypto knowledge and finish contributing to the codebases Zcash runs on, through hands-on challenges with a real shielded wallet in your browser.',
 };
-
-const REPO = 'https://github.com/Giri-Aayush/speedrun-zcash';
 
 export default function RootLayout({
   children,
@@ -26,39 +26,17 @@ export default function RootLayout({
     >
       <body>
         <Providers>
-          <nav className="wrap flex items-center gap-6 py-[22px]">
-            <Link
-              href="/"
-              className="flex shrink-0 items-center gap-2 whitespace-nowrap text-[15px] font-bold"
-              style={{ fontFamily: 'var(--font-display), sans-serif' }}
-            >
-              🏃 Speedrun
-              <span style={{ color: 'var(--gold)', marginLeft: '-3px' }}>
-                Zcash
-              </span>
-            </Link>
-            <div className="ml-auto flex items-center gap-5 text-[13.5px] font-medium sm:gap-[26px]">
-              <Link href="/challenges" className="muted hover:text-[var(--gold)]">
-                Challenges
-              </Link>
-              <Link href="/wallet" className="muted hover:text-[var(--gold)]">
-                Wallet
-              </Link>
-              <a
-                href={REPO}
-                target="_blank"
-                rel="noreferrer"
-                className="muted hidden hover:text-[var(--gold)] sm:inline"
-              >
-                GitHub ↗
-              </a>
-            </div>
-          </nav>
-          <div className="rule" />
+          {/* Floating pill nav — fixed, so it takes no flow space. Pages
+              begin with generous top padding (.section, hero pt-28), which
+              is what keeps content clear of it. */}
+          <AnimatedNav />
+          <div className="h-6" aria-hidden="true" />
 
           {children}
 
           <Footer />
+          <CookieConsent />
+          <Analytics />
         </Providers>
       </body>
     </html>
