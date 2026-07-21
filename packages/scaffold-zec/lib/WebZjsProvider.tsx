@@ -24,9 +24,27 @@ import React, {
 import { get, set } from 'idb-keyval';
 import { mnemonicToSeed } from './bip39';
 
-// WebZjs is WASM + SharedArrayBuffer; types only at module level, real
-// modules are dynamically imported in the browser during init.
+// WebZjs types come from the vendored package, but at runtime the module is
+// loaded UNBUNDLED from /public — webpack rewrites wasm-bindgen's worker and
+// wasm URL wiring in ways that wedge its async runtime, so it must never
+// process this module. loadWebZjs is the only entry point.
 import type { WebWallet, WalletSummary } from '@chainsafe/webzjs-wallet';
+
+type WebZjsModule = typeof import('@chainsafe/webzjs-wallet');
+
+let webzjsModule: Promise<WebZjsModule> | null = null;
+
+function loadWebZjs(): Promise<WebZjsModule> {
+  webzjsModule ??= (async () => {
+    const mod: WebZjsModule = await import(
+      // @ts-expect-error -- runtime URL, served from public/; typed via WebZjsModule
+      /* webpackIgnore: true */ '/webzjs/webzjs_wallet.js'
+    );
+    await mod.default('/webzjs/webzjs_wallet_bg.wasm');
+    return mod;
+  })();
+  return webzjsModule;
+}
 
 const NETWORK = process.env.NEXT_PUBLIC_ZCASH_NETWORK || 'test';
 const LIGHTWALLETD_PROXY =
@@ -93,6 +111,7 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
   const walletRef = useRef<WebWallet | null>(null);
   const initRef = useRef(false);
   const syncingRef = useRef(false);
+  const chainHeightRef = useRef<bigint | null>(null);
 
   const patch = (p: Partial<WebZjsState>) =>
     setState((s) => ({ ...s, ...p }));
@@ -125,7 +144,10 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
     }
     try {
       const height = await wallet.get_latest_block();
-      if (height) patch({ chainHeight: height });
+      if (height) {
+        chainHeightRef.current = height;
+        patch({ chainHeight: height });
+      }
     } catch {
       /* chain height is best-effort; retried on next sync */
     }
@@ -145,8 +167,7 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       patch({ status: 'initializing' });
       try {
-        const walletMod = await import('@chainsafe/webzjs-wallet');
-        await walletMod.default();
+        const walletMod = await loadWebZjs();
         // initThreadPool is deliberately not called: the vendor build ships
         // without shared wasm memory, and a failed pool startup leaves rayon
         // wedged. Single-threaded until the parallel build is fixed — see
@@ -199,10 +220,12 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
   const createWallet = useCallback(async () => {
     const wallet = walletRef.current;
     if (!wallet) throw new Error('Wallet not initialized');
-    const { generate_seed_phrase } = await import('@chainsafe/webzjs-wallet');
+    const { generate_seed_phrase } = await loadWebZjs();
     const seedPhrase = generate_seed_phrase();
     // New wallet: birthday = current chain tip (nothing older to scan)
-    const height = Number(await wallet.get_latest_block());
+    const height = Number(
+      chainHeightRef.current ?? (await wallet.get_latest_block()),
+    );
     await addAccount(seedPhrase, height);
     return seedPhrase;
   }, [addAccount]);
@@ -254,7 +277,7 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
       patch({ sending: true });
       try {
         const { pczt_sign, SeedFingerprint, UnifiedSpendingKey } =
-          await import('@chainsafe/webzjs-wallet');
+          await loadWebZjs();
         const seed = await mnemonicToSeed(mnemonic);
         const usk = new UnifiedSpendingKey(NETWORK, seed, ACCOUNT_HD_INDEX);
         const seedFp = new SeedFingerprint(seed);

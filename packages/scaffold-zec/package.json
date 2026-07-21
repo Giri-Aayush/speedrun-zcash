@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync-webzjs": "rm -rf public/webzjs && cp -R vendor/webzjs-wallet public/webzjs",
+    "predev": "npm run sync-webzjs",
+    "prebuild": "npm run sync-webzjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -13,3 +13,4 @@ next-env.d.ts
 info/
 vendor/
 .claude/
+packages/scaffold-zec/public/webzjs/

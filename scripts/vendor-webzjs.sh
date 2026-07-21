@@ -42,11 +42,13 @@ if [[ "${1:-}" == "--docker" ]]; then
 fi
 
 command -v wasm-pack >/dev/null || npm install -g wasm-pack
-rustup toolchain install nightly --component rust-src
 
 git clone --depth 1 https://github.com/ChainSafe/WebZjs.git "$WORK_DIR"
 cd "$WORK_DIR"
-rustup override set nightly
+# WebZjs pins its nightly in rust-toolchain.toml — do NOT override it.
+# Building on a newer nightly produces a wasm whose async gRPC calls hang.
+rustup toolchain install "$(grep -o 'nightly-[0-9-]*' rust-toolchain.toml)" \
+  --component rust-src --target wasm32-unknown-unknown
 
 # macOS: Apple clang can't target wasm32. Prefer Homebrew LLVM, else zig cc.
 if [[ "$(uname)" == "Darwin" ]]; then
