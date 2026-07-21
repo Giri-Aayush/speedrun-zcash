@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { LEVELS, challenges } from '../lib/challenges';
 import { ChallengeTrack } from '../components/ChallengeTrack';
-import { ChainTip } from '../components/ChainTip';
 import { CursorTrail } from '../components/CursorTrail';
 import { ArrowLink } from '../components/ArrowLink';
 import { Notice } from '../components/Notice';
@@ -60,15 +59,12 @@ export default function Home() {
             className="lede rise mx-auto"
             style={{ animationDelay: '210ms' }}
           >
-            Never touched Zcash — or crypto at all? Perfect. This is an
-            interactive journey from zero to contributing to the codebases
-            Zcash runs on. You learn by doing, not by reading: every challenge
-            happens against a real shielded wallet in your browser. Steps
-            clear themselves. Nothing to install.
+            No crypto background needed. Learn by doing — against a real
+            shielded wallet in your browser.
           </p>
 
           <div
-            className="rise flex flex-wrap items-center justify-center gap-[18px]"
+            className="rise flex flex-wrap items-center justify-center gap-3"
             style={{ animationDelay: '300ms' }}
           >
             {/* These navigate, so they stay anchors and borrow HeroUI's button
@@ -80,14 +76,10 @@ export default function Home() {
             )}
             <Link
               href="/challenges"
-              className="button button--outline button--lg"
+              className="button button--ghost button--lg"
             >
-              View all challenges
+              See the 10 challenges
             </Link>
-          </div>
-
-          <div className="rise" style={{ animationDelay: '390ms' }}>
-            <ChainTip />
           </div>
         </section>
       </div>
