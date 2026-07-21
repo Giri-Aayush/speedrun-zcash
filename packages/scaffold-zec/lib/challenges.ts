@@ -358,7 +358,7 @@ export const challenges: Challenge[] = [
     title: 'Shielded Storefront',
     tagline:
       'Sell digital goods for shielded ZEC: payment-request QR codes in, automatic delivery out — without ever holding spend keys on the server.',
-    status: 'soon',
+    status: 'live',
     level: 'applied',
     skills: ['ZIP-321 payment URIs', 'Watch-only wallets', 'Payment detection'],
     codebase: {
