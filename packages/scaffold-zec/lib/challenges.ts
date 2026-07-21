@@ -289,7 +289,7 @@ export const challenges: Challenge[] = [
     title: 'Build a Light Wallet',
     tagline:
       'Sync, derive addresses, and spend — assemble your own wallet on the light client protocol, piece by piece.',
-    status: 'soon',
+    status: 'live',
     level: 'applied',
     skills: ['Compact blocks', 'ZIP-32 keys', 'Sync UX'],
     codebase: {
