@@ -4,6 +4,7 @@ import { ChallengeRow } from '../components/ChallengeRow';
 import { ChainTip } from '../components/ChainTip';
 import { CursorTrail } from '../components/CursorTrail';
 import { ArrowLink } from '../components/ArrowLink';
+import { Notice } from '../components/Notice';
 
 const STEPS = [
   {
@@ -107,6 +108,17 @@ export default function Home() {
       </div>
 
       <section id="challenges" className="wrap section flex flex-col gap-7">
+        <Notice
+          id="open-source"
+          action={{
+            label: 'github ↗',
+            href: 'https://github.com/Giri-Aayush/speedrun-zcash',
+          }}
+        >
+          Free and open source under MIT — the challenges, the wallet, and the
+          platform running them. No accounts, no paid tier, nothing to unlock.
+        </Notice>
+
         <div className="flex items-baseline gap-4">
           <h2 className="display text-[28px]">Challenges</h2>
           <span className="mono ml-auto text-[12px]" style={{ color: 'var(--dim)' }}>
