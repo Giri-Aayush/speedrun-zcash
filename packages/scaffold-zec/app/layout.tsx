@@ -25,7 +25,11 @@ export default function RootLayout({
       className={`dark ${display.variable} ${sans.variable} ${mono.variable}`}
       data-theme="dark"
     >
-      <body>
+      {/* Browser extensions (ColorZilla, Grammarly, and friends) inject
+          attributes onto <body> before React hydrates, which trips a
+          hydration warning that has nothing to do with our markup. Suppress
+          it one level deep; real mismatches inside the tree still surface. */}
+      <body suppressHydrationWarning>
         <Providers>
           {/* Floating pill nav — fixed, so it takes no flow space. Pages
               begin with generous top padding (.section, hero pt-28), which
