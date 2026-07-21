@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Card, Chip } from '@heroui/react';
 import type { Challenge } from '../../lib/challenges';
 import { useWebZjs } from '../../lib/WebZjsProvider';
 import { useBuilder } from '../../lib/BuilderProvider';
@@ -15,9 +14,12 @@ import { SyncStatus } from '../SyncStatus';
 function StepBadge({ done, index }: { done: boolean; index: number }) {
   return (
     <span
-      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-        done ? 'bg-green-600 text-white' : 'bg-zinc-700 text-zinc-300'
-      }`}
+      className="mono flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12px]"
+      style={
+        done
+          ? { background: 'var(--gold)', color: 'var(--gold-ink)', fontWeight: 700 }
+          : { border: '1px solid var(--edge)', color: 'var(--dim)' }
+      }
     >
       {done ? '✓' : index + 1}
     </span>
@@ -121,99 +123,101 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
       (c) => c.challengeSlug === challenge.slug && c.stepId === stepId,
     )?.verification;
 
-  return (
-    <Card>
-      <Card.Header>
-        <Card.Title className="flex items-center gap-3">
-          Your run
-          <Chip
-            size="sm"
-            color={completed === challenge.steps.length ? 'success' : 'default'}
-            className="ml-auto"
-          >
-            {completed}/{challenge.steps.length} steps
-          </Chip>
-        </Card.Title>
-        <Card.Description>
-          Steps complete themselves as your wallet state changes — no
-          self-reporting.
-        </Card.Description>
-      </Card.Header>
-      <Card.Content className="flex flex-col gap-5">
-        <ConnectBuilder />
+  const allDone = completed === challenge.steps.length;
 
-        <ol className="m-0 flex list-none flex-col gap-4 p-0">
-          {challenge.steps.map((step, i) => {
-            const verification = verificationOf(step.id);
-            return (
-              <li key={step.id} className="flex gap-3">
-                <StepBadge done={done(step.id)} index={i} />
-                <div>
-                  <p className="m-0 flex items-center gap-2 font-semibold">
+  return (
+    <section className="card flex flex-col gap-6">
+      <div className="flex items-baseline gap-4">
+        <h2 className="card-title">Your run</h2>
+        <span
+          className="mono ml-auto text-[12px]"
+          style={{ color: allDone ? 'var(--green)' : 'var(--dim)' }}
+        >
+          {completed}/{challenge.steps.length} cleared
+        </span>
+      </div>
+
+      <ConnectBuilder />
+
+      <ol className="m-0 flex list-none flex-col gap-5 p-0">
+        {challenge.steps.map((step, i) => {
+          const verification = verificationOf(step.id);
+          return (
+            <li key={step.id} className="flex gap-4">
+              <StepBadge done={done(step.id)} index={i} />
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[15.5px] font-semibold">
                     {step.title}
-                    {verification === 'chain' && (
-                      <Chip size="sm" color="success">
-                        verified on-chain
-                      </Chip>
-                    )}
-                    {verification === 'attested' && (
-                      <Chip size="sm">self-attested</Chip>
-                    )}
-                    {pending === step.id && <Chip size="sm">checking…</Chip>}
-                  </p>
-                  <p className="m-0 text-sm opacity-75">{step.detail}</p>
-                  {step.verification === 'chain' && !verification && (
-                    <p className="hint m-0 mt-1">
-                      Confirmed by looking your transaction up on lightwalletd.
-                    </p>
+                  </span>
+                  {verification === 'chain' && (
+                    <span className="pill pill-done">verified on-chain</span>
                   )}
-                  {step.id === 'fund' && (
-                    <p className="m-0 mt-1 text-sm">
-                      Faucet:{' '}
-                      <a
-                        href="https://faucet.zecpages.com/"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        faucet.zecpages.com
-                      </a>
-                    </p>
+                  {verification === 'attested' && (
+                    <span className="pill">self-attested</span>
+                  )}
+                  {pending === step.id && (
+                    <span className="pill pill-live">checking…</span>
                   )}
                 </div>
-              </li>
-            );
-          })}
-        </ol>
+                <p className="m-0 text-[14px] leading-[1.6] muted">
+                  {step.detail}
+                </p>
+                {step.verification === 'chain' && !verification && (
+                  <p className="hint m-0">
+                    Confirmed by looking your transaction up on lightwalletd.
+                  </p>
+                )}
+                {step.id === 'fund' && (
+                  <a
+                    href="https://faucet.zecpages.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mono text-[12.5px]"
+                    style={{ color: 'var(--gold)' }}
+                  >
+                    faucet.zecpages.com ↗
+                  </a>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
 
-        {rejection && (
-          <p className="hint m-0">Not confirmed yet: {rejection}</p>
-        )}
+      {rejection && <p className="hint m-0">Not confirmed yet: {rejection}</p>}
 
-        {status === 'error' ? (
-          <p className="error m-0 text-sm">
-            Wallet failed to start — is the lightwalletd proxy running?
-            (<code>./infra/run-testnet-proxy.sh</code>)
-          </p>
-        ) : status !== 'ready' ? (
-          <CreateWallet />
-        ) : (
-          <>
-            <SyncStatus />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <ShieldedBalance />
-              <AddressDisplay />
-            </div>
-            <SendZec onSent={() => claim('send')} />
-          </>
-        )}
+      <div className="rule" />
 
-        {completed === challenge.steps.length && (
-          <p className="success m-0 text-sm">
-            🎉 Challenge complete — and two of those steps were proven against
-            the chain itself, not taken on your word.
-          </p>
-        )}
-      </Card.Content>
-    </Card>
+      {status === 'error' ? (
+        <p className="error m-0">
+          Wallet failed to start — is the lightwalletd proxy running?{' '}
+          <code>./infra/run-testnet-proxy.sh</code>
+        </p>
+      ) : status === 'idle' || status === 'initializing' ? (
+        <div className="flex items-center gap-3">
+          <span className="dot dot-busy" />
+          <span className="muted text-sm">Starting the light client…</span>
+        </div>
+      ) : status === 'no-account' ? (
+        <CreateWallet />
+      ) : (
+        <div className="flex flex-col gap-4">
+          <SyncStatus />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <ShieldedBalance />
+            <AddressDisplay />
+          </div>
+          <SendZec onSent={() => claim('send')} />
+        </div>
+      )}
+
+      {allDone && (
+        <p className="success m-0">
+          Challenge cleared — and the chain-verified steps were proven against
+          the chain itself, not taken on your word.
+        </p>
+      )}
+    </section>
   );
 }

@@ -1,66 +1,26 @@
-'use client';
-
-import Link from 'next/link';
-import { Card, Chip } from '@heroui/react';
 import { challenges } from '../../lib/challenges';
+import { ChallengeRow } from '../../components/ChallengeRow';
+
+export const metadata = { title: 'Challenges · Speedrun Zcash' };
 
 export default function ChallengesPage() {
   return (
-    <main>
-      <header>
-        <h1>Challenges</h1>
-        <p className="tagline">
-          Ship something real in every challenge. Each one unlocks the next.
+    <main className="wrap section flex flex-col gap-7">
+      <div className="flex flex-col gap-3">
+        <span className="eyebrow">The curriculum</span>
+        <h1 className="display text-[40px]">Challenges</h1>
+        <p className="lede">
+          Each one ships something real and unlocks the next. Start at zero.
         </p>
-      </header>
+      </div>
 
-      <div className="flex flex-col gap-4">
-        {challenges.map((c) => {
-          const inner = (
-            <Card
-              key={c.slug}
-              className={c.status === 'live' ? 'transition hover:border-yellow-500/60' : 'opacity-55'}
-            >
-              <Card.Header>
-                <Card.Title className="flex items-center gap-2">
-                  <span>{c.emoji}</span>
-                  <span className="text-zinc-500 font-mono text-sm">
-                    #{c.number}
-                  </span>
-                  {c.title}
-                  {c.status === 'live' ? (
-                    <Chip size="sm" color="success" className="ml-auto">
-                      Live
-                    </Chip>
-                  ) : (
-                    <Chip size="sm" className="ml-auto">
-                      Coming soon
-                    </Chip>
-                  )}
-                </Card.Title>
-                <Card.Description>{c.tagline}</Card.Description>
-              </Card.Header>
-              <Card.Content className="flex flex-wrap gap-2">
-                {c.skills.map((s) => (
-                  <Chip key={s} size="sm" variant="secondary">
-                    {s}
-                  </Chip>
-                ))}
-              </Card.Content>
-            </Card>
-          );
-          return c.status === 'live' ? (
-            <Link
-              key={c.slug}
-              href={`/challenges/${c.slug}`}
-              className="no-underline"
-            >
-              {inner}
-            </Link>
-          ) : (
-            inner
-          );
-        })}
+      <div className="flex flex-col">
+        {challenges.map((challenge, i) => (
+          <div key={challenge.slug}>
+            {i > 0 && <div className="row-divider" />}
+            <ChallengeRow challenge={challenge} />
+          </div>
+        ))}
       </div>
     </main>
   );

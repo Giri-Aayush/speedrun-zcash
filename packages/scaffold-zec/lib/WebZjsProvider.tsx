@@ -86,6 +86,9 @@ export interface TxSummary {
 }
 
 export interface WebZjsApi extends WebZjsState {
+  /** Boots the wasm light client. Surfaces that need a wallet call this on
+   *  mount; the marketing pages never do, so they stay light. */
+  ensureWallet: () => void;
   createWallet: () => Promise<string>;
   restoreWallet: (seedPhrase: string, birthday?: number) => Promise<void>;
   triggerSync: () => Promise<void>;
@@ -174,8 +177,7 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
     await set(IDB_WALLET_KEY, bytes);
   }, []);
 
-  // One-time WASM + wallet init (browser only)
-  useEffect(() => {
+  const ensureWallet = useCallback(() => {
     if (initRef.current) return;
     initRef.current = true;
     (async () => {
@@ -340,6 +342,7 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
 
   const api: WebZjsApi = {
     ...state,
+    ensureWallet,
     createWallet,
     restoreWallet,
     triggerSync,

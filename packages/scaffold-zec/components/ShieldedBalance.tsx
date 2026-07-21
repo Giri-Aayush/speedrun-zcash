@@ -9,29 +9,39 @@ export function ShieldedBalance() {
   const pending =
     (balance?.pendingChange ?? 0) + (balance?.pendingSpendable ?? 0);
 
+  const rows: [string, number, boolean][] = [
+    ['Orchard', balance?.orchard ?? 0, false],
+    ['Sapling', balance?.sapling ?? 0, false],
+    ['Transparent', balance?.transparent ?? 0, true],
+  ];
+
   return (
-    <div className="card">
-      <h2>Balance</h2>
-      <div className="balance-main">
-        🛡️ {zatsToZec(shielded)} <span className="unit">TAZ</span>
+    <div className="card flex flex-col gap-4">
+      <span className="eyebrow">Shielded balance</span>
+      <div
+        className="mono text-[32px] leading-none"
+        style={{ color: 'var(--gold)' }}
+      >
+        {zatsToZec(shielded)}
+        <span className="ml-2 text-[13px]" style={{ color: 'var(--dim)' }}>
+          TAZ
+        </span>
       </div>
-      <div className="balance-rows">
-        <div>
-          <span>Orchard</span>
-          <span>{zatsToZec(balance?.orchard ?? 0)}</span>
-        </div>
-        <div>
-          <span>Sapling</span>
-          <span>{zatsToZec(balance?.sapling ?? 0)}</span>
-        </div>
-        <div>
-          <span>Transparent ⚠️</span>
-          <span>{zatsToZec(balance?.transparent ?? 0)}</span>
-        </div>
+
+      <div className="flex flex-col gap-[6px] text-[13px]">
+        {rows.map(([label, value, exposed]) => (
+          <div key={label} className="flex justify-between">
+            <span style={{ color: exposed ? 'var(--red)' : 'var(--dim)' }}>
+              {label}
+              {exposed && ' · public'}
+            </span>
+            <span className="mono">{zatsToZec(value)}</span>
+          </div>
+        ))}
         {pending > 0 && (
-          <div>
-            <span>Pending</span>
-            <span>{zatsToZec(pending)}</span>
+          <div className="flex justify-between">
+            <span style={{ color: 'var(--dim)' }}>Pending</span>
+            <span className="mono">{zatsToZec(pending)}</span>
           </div>
         )}
       </div>

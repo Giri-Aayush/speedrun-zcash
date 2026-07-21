@@ -11,18 +11,27 @@ export function SyncStatus() {
     chainHeight - fullyScannedHeight <= 1n;
 
   return (
-    <div className="syncbar">
-      <span className={`dot ${syncing ? 'busy' : synced ? 'ok' : 'warn'}`} />
-      <span>
+    <div
+      className="flex items-center gap-[10px] rounded-full px-4 py-2"
+      style={{ border: '1px solid var(--hairline)' }}
+    >
+      <span
+        className={`dot ${syncing ? 'dot-busy' : synced ? 'dot-live' : 'dot-idle'}`}
+      />
+      <span className="mono text-[12px]" style={{ color: 'var(--dim)' }}>
         {network === 'test' ? 'testnet' : 'mainnet'} ·{' '}
         {syncing
-          ? 'syncing…'
+          ? 'scanning…'
           : fullyScannedHeight !== null
-            ? `scanned ${fullyScannedHeight}${chainHeight !== null ? ` / ${chainHeight}` : ''}`
-            : 'not synced yet'}
+            ? `${fullyScannedHeight}${chainHeight !== null ? ` / ${chainHeight}` : ''}`
+            : 'not synced'}
       </span>
-      <button className="secondary small" onClick={triggerSync} disabled={syncing}>
-        Sync now
+      <button
+        className="btn btn-ghost btn-small ml-auto"
+        onClick={triggerSync}
+        disabled={syncing}
+      >
+        Sync
       </button>
     </div>
   );

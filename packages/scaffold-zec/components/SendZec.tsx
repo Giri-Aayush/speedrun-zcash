@@ -11,15 +11,14 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const spendable =
-    (balance?.sapling ?? 0) + (balance?.orchard ?? 0);
+  const spendable = (balance?.sapling ?? 0) + (balance?.orchard ?? 0);
 
   const onSend = async () => {
     setError(null);
     setResult(null);
     try {
       await send(to.trim(), zecToZats(amount));
-      setResult(`Sent ${amount} TAZ 🎉 — watch it confirm on the next sync.`);
+      setResult(`Sent ${amount} TAZ. It will confirm on the next block.`);
       setTo('');
       setAmount('');
       onSent?.();
@@ -29,44 +28,41 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
   };
 
   return (
-    <div className="card">
-      <h2>Send shielded</h2>
-      <div className="stack">
-        <input
-          placeholder="Recipient address (unified utest1… or transparent tm…)"
-          value={to}
-          onChange={(e) => setTo(e.target.value)}
-        />
-        <input
-          placeholder="Amount in TAZ"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          inputMode="decimal"
-        />
+    <div className="card flex flex-col gap-4">
+      <span className="eyebrow">Send shielded</span>
+
+      <input
+        placeholder="Recipient — utest1… or tm…"
+        value={to}
+        onChange={(e) => setTo(e.target.value)}
+      />
+      <input
+        placeholder="Amount in TAZ"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        inputMode="decimal"
+      />
+
+      <div className="flex flex-wrap items-center gap-3">
         <button
+          className="btn btn-primary"
           onClick={onSend}
           disabled={sending || !to.trim() || !amount || spendable === 0}
         >
-          {sending ? 'Building proof & sending…' : 'Send'}
+          {sending ? 'Building proof…' : 'Send'}
         </button>
-        {spendable === 0 && (
-          <p className="hint">No spendable shielded balance yet.</p>
+        {sending && (
+          <span className="hint">
+            Proving runs in this tab and takes a while — leave it open.
+          </span>
         )}
-        <p className="hint">
-          📝 Memo support is not exposed by WebZjs yet (payments are built
-          with <code>Payment::without_memo</code>) — upstreaming it is on the{' '}
-          <a
-            href="https://github.com/ChainSafe/WebZjs"
-            target="_blank"
-            rel="noreferrer"
-          >
-            roadmap
-          </a>
-          .
-        </p>
+        {!sending && spendable === 0 && (
+          <span className="hint">Nothing spendable yet.</span>
+        )}
       </div>
-      {result && <p className="success">{result}</p>}
-      {error && <p className="error">{error}</p>}
+
+      {result && <p className="success m-0">{result}</p>}
+      {error && <p className="error m-0">{error}</p>}
     </div>
   );
 }

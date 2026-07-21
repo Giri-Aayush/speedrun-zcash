@@ -3,8 +3,8 @@
 import { use } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Card, Chip } from '@heroui/react';
 import { getChallenge } from '../../../lib/challenges';
+import { WalletBoot } from '../../../components/WalletBoot';
 import { Challenge0Play } from '../../../components/challenge/Challenge0Play';
 
 export default function ChallengePage({
@@ -17,40 +17,41 @@ export default function ChallengePage({
   if (!challenge || challenge.status !== 'live') notFound();
 
   return (
-    <main>
-      <header>
-        <Link
-          href="/challenges"
-          className="text-sm no-underline opacity-70 hover:opacity-100"
-        >
+    <main className="wrap section flex max-w-[760px] flex-col gap-10">
+      <WalletBoot />
+
+      <header className="flex flex-col gap-4">
+        <Link href="/challenges" className="eyebrow hover:text-[var(--gold)]">
           ← All challenges
         </Link>
-        <h1 className="mt-2">
-          {challenge.emoji} Challenge #{challenge.number}: {challenge.title}
-        </h1>
-        <p className="tagline">{challenge.tagline}</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {challenge.skills.map((s) => (
-            <Chip key={s} size="sm" variant="secondary">
-              {s}
-            </Chip>
+        <div className="flex items-baseline gap-4">
+          <span
+            className="display text-[44px] leading-none"
+            style={{ color: 'var(--gold)' }}
+          >
+            #{challenge.number}
+          </span>
+          <h1 className="display text-[32px]">{challenge.title}</h1>
+        </div>
+        <p className="lede">{challenge.tagline}</p>
+        <div className="flex flex-wrap gap-2">
+          {challenge.skills.map((skill) => (
+            <span key={skill} className="pill">
+              {skill}
+            </span>
           ))}
         </div>
       </header>
 
       {challenge.lesson.map((section) => (
-        <Card key={section.heading}>
-          <Card.Header>
-            <Card.Title>{section.heading}</Card.Title>
-          </Card.Header>
-          <Card.Content className="flex flex-col gap-3">
-            {section.body.map((p, i) => (
-              <p key={i} className="text-sm leading-relaxed opacity-90">
-                {p}
-              </p>
-            ))}
-          </Card.Content>
-        </Card>
+        <section key={section.heading} className="flex flex-col gap-3">
+          <h2 className="card-title">{section.heading}</h2>
+          {section.body.map((paragraph, i) => (
+            <p key={i} className="m-0 text-[15px] leading-[1.7] muted">
+              {paragraph}
+            </p>
+          ))}
+        </section>
       ))}
 
       {challenge.slug === 'first-shielded-transaction' && (
@@ -58,18 +59,22 @@ export default function ChallengePage({
       )}
 
       {challenge.gotcha && (
-        <Card className="border-yellow-600/40">
-          <Card.Header>
-            <Card.Title>{challenge.gotcha.heading}</Card.Title>
-          </Card.Header>
-          <Card.Content className="flex flex-col gap-3">
-            {challenge.gotcha.body.map((p, i) => (
-              <p key={i} className="text-sm leading-relaxed opacity-90">
-                {p}
-              </p>
-            ))}
-          </Card.Content>
-        </Card>
+        <section
+          className="flex flex-col gap-3 rounded-2xl p-6"
+          style={{
+            border: '1px solid rgba(244,183,40,.25)',
+            background: 'var(--gold-wash)',
+          }}
+        >
+          <h2 className="card-title" style={{ color: 'var(--gold)' }}>
+            {challenge.gotcha.heading}
+          </h2>
+          {challenge.gotcha.body.map((paragraph, i) => (
+            <p key={i} className="m-0 text-[15px] leading-[1.7] muted">
+              {paragraph}
+            </p>
+          ))}
+        </section>
       )}
     </main>
   );

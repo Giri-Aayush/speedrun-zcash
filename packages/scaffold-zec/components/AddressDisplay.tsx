@@ -4,45 +4,64 @@ import { useState } from 'react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { shortenAddress } from '../lib/zec';
 
-function CopyRow({ label, value }: { label: string; value: string | null }) {
+function CopyRow({
+  label,
+  value,
+  exposed = false,
+}: {
+  label: string;
+  value: string | null;
+  exposed?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
   if (!value) return null;
+
   return (
-    <div className="addr-row">
-      <span className="addr-label">{label}</span>
-      <code title={value}>{shortenAddress(value, 14)}</code>
-      <button
-        className="secondary small"
-        onClick={async () => {
-          await navigator.clipboard.writeText(value);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1200);
-        }}
+    <div className="flex flex-col gap-[6px]">
+      <span
+        className="eyebrow"
+        style={exposed ? { color: 'var(--red)' } : undefined}
       >
-        {copied ? '✓' : 'Copy'}
-      </button>
+        {label}
+      </span>
+      <div className="flex items-center gap-2">
+        <code className="min-w-0 truncate text-[12.5px]" title={value}>
+          {shortenAddress(value, 12)}
+        </code>
+        <button
+          className="btn btn-ghost btn-small ml-auto"
+          onClick={async () => {
+            await navigator.clipboard.writeText(value);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1200);
+          }}
+        >
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+      </div>
     </div>
   );
 }
 
 export function AddressDisplay() {
   const { unifiedAddress, transparentAddress } = useWebZjs();
+
   return (
-    <div className="card">
-      <h2>Receive</h2>
-      <CopyRow label="Unified (shielded)" value={unifiedAddress} />
-      <CopyRow label="Transparent" value={transparentAddress} />
-      <p className="hint">
+    <div className="card flex flex-col gap-4">
+      <span className="eyebrow">Receive</span>
+      <CopyRow label="Unified · shielded" value={unifiedAddress} />
+      <CopyRow label="Transparent · visible" value={transparentAddress} exposed />
+      <p className="hint m-0">
         Fund it from the{' '}
         <a
           href="https://faucet.zecpages.com/"
           target="_blank"
           rel="noreferrer"
+          style={{ color: 'var(--gold)' }}
         >
           testnet faucet
         </a>
-        . Unified address = privacy by default; transparent = visible to
-        everyone, like Bitcoin.
+        . Anything the transparent address touches is public forever.
       </p>
     </div>
   );

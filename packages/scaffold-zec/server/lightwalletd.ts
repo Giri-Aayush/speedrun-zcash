@@ -17,6 +17,8 @@ const PROXY =
 
 const GET_TRANSACTION =
   '/cash.z.wallet.sdk.rpc.CompactTxStreamer/GetTransaction';
+const GET_LATEST_BLOCK =
+  '/cash.z.wallet.sdk.rpc.CompactTxStreamer/GetLatestBlock';
 
 export interface TransactionLookup {
   found: boolean;
@@ -92,6 +94,36 @@ function decodeHeight(body: Uint8Array): number | null {
     }
   }
   return null;
+}
+
+/** Current chain tip, so the landing page can show a live block without
+ *  making every visitor download the wallet's wasm. */
+export async function getChainTip(): Promise<number | null> {
+  const empty = new Uint8Array([0x00, 0, 0, 0, 0]);
+  const response = await fetch(`${PROXY}${GET_LATEST_BLOCK}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/grpc-web+proto',
+      'x-grpc-web': '1',
+    },
+    body: empty.buffer as ArrayBuffer,
+    cache: 'no-store',
+  });
+  if (!response.ok) return null;
+
+  const body = new Uint8Array(await response.arrayBuffer());
+  if (body.length < 5) return null;
+
+  // BlockID { height = 1 }
+  const length = new DataView(body.buffer, body.byteOffset + 1, 4).getUint32(
+    0,
+    false,
+  );
+  const message = body.subarray(5, 5 + length);
+  const [tag, afterTag] = readVarint(message, 0);
+  if (tag >> 3 !== 1) return null;
+  const [height] = readVarint(message, afterTag);
+  return height > 0 ? height : null;
 }
 
 export async function lookupTransaction(
