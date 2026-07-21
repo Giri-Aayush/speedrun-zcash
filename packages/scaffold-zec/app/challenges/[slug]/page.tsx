@@ -8,6 +8,7 @@ import { getChallenge } from '../../../lib/challenges';
 import { WalletBoot } from '../../../components/WalletBoot';
 import { Notice } from '../../../components/Notice';
 import { Challenge0Play } from '../../../components/challenge/Challenge0Play';
+import { ChallengeRun } from '../../../components/challenge/ChallengeRun';
 
 export default function ChallengePage({
   params,
@@ -89,9 +90,12 @@ export default function ChallengePage({
         </section>
       ))}
 
-      {challenge.slug === 'first-shielded-transaction' && (
-        <Challenge0Play challenge={challenge} />
-      )}
+      {live &&
+        (challenge.slug === 'first-shielded-transaction' ? (
+          <Challenge0Play challenge={challenge} />
+        ) : (
+          <ChallengeRun challenge={challenge} />
+        ))}
 
       {!live && challenge.steps.length > 0 && (
         <section className="flex flex-col gap-4">

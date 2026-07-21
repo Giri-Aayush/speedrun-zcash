@@ -151,7 +151,7 @@ export const challenges: Challenge[] = [
     title: 'Watch the Chain',
     tagline:
       'No code yet — learn to see. Follow your own transaction through an explorer and discover what the network knows, and what it provably cannot.',
-    status: 'soon',
+    status: 'live',
     level: 'foundations',
     skills: ['Block explorers', 'Compact blocks', 'Light client trust'],
     codebase: {
