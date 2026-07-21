@@ -15,9 +15,7 @@ but no guided, challenge-based on-ramp for developers. Speedrun Ethereum showed
 the recipe: a starter kit that gets a beginner to a working full-stack app in
 minutes, plus progressive challenges that each ship something publicly
 verifiable. See [docs/curriculum.md](docs/curriculum.md) for the full
-10-challenge curriculum design and
-[docs/speedrun-ethereum-research.md](docs/speedrun-ethereum-research.md) for
-the research behind it.
+10-challenge curriculum design.
 
 Zcash even gives us a native autograder Ethereum doesn't have: challenge
 completion is proven by sending a **shielded testnet transaction with your

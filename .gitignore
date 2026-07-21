@@ -8,3 +8,8 @@ dist/
 .DS_Store
 tsconfig.tsbuildinfo
 next-env.d.ts
+
+# Internal working notes and heavy build artifacts stay local
+info/
+vendor/
+.claude/
