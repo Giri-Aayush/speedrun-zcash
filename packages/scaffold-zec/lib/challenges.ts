@@ -630,7 +630,7 @@ export const challenges: Challenge[] = [
     title: 'Ship Your Privacy App',
     tagline:
       'Design, build, and ship your own shielded app — everything before this was practice for it.',
-    status: 'soon',
+    status: 'live',
     level: 'capstone',
     skills: ['Product design', 'WebZjs integration', 'Ecosystem grants'],
     codebase: {
