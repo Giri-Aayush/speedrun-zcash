@@ -5,6 +5,7 @@ import { ChainTip } from '../components/ChainTip';
 import { CursorTrail } from '../components/CursorTrail';
 import { ArrowLink } from '../components/ArrowLink';
 import { Notice } from '../components/Notice';
+import { Faqs } from '../components/Faqs';
 
 const STEPS = [
   {
@@ -136,6 +137,12 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <div className="wrap">
+        <div className="rule" />
+      </div>
+
+      <Faqs />
     </main>
   );
 }
