@@ -48,10 +48,34 @@ git clone --depth 1 https://github.com/ChainSafe/WebZjs.git "$WORK_DIR"
 cd "$WORK_DIR"
 rustup override set nightly
 
-# macOS: point cargo's C compilation at LLVM clang if available
-if [[ "$(uname)" == "Darwin" && -x /opt/homebrew/opt/llvm/bin/clang ]]; then
-  export CC_wasm32_unknown_unknown=/opt/homebrew/opt/llvm/bin/clang
-  export AR_wasm32_unknown_unknown=/opt/homebrew/opt/llvm/bin/llvm-ar
+# macOS: Apple clang can't target wasm32. Prefer Homebrew LLVM, else zig cc.
+if [[ "$(uname)" == "Darwin" ]]; then
+  if [[ -x /opt/homebrew/opt/llvm/bin/clang ]]; then
+    export CC_wasm32_unknown_unknown=/opt/homebrew/opt/llvm/bin/clang
+    export AR_wasm32_unknown_unknown=/opt/homebrew/opt/llvm/bin/llvm-ar
+  elif command -v zig >/dev/null; then
+    # zig cc chokes on cc-rs's --target=wasm32-unknown-unknown flag; wrap it.
+    WRAP_DIR="$(mktemp -d)"
+    cat > "$WRAP_DIR/zig-cc-wasm32" <<'WRAP'
+#!/bin/sh
+args=""
+for a in "$@"; do
+  case "$a" in
+    --target=*) ;;
+    *) args="$args \"$a\"" ;;
+  esac
+done
+eval exec zig cc -target wasm32-freestanding $args
+WRAP
+    printf '#!/bin/sh\nexec zig ar "$@"\n' > "$WRAP_DIR/zig-ar"
+    chmod +x "$WRAP_DIR/zig-cc-wasm32" "$WRAP_DIR/zig-ar"
+    export CC_wasm32_unknown_unknown="$WRAP_DIR/zig-cc-wasm32"
+    export AR_wasm32_unknown_unknown="$WRAP_DIR/zig-ar"
+  else
+    echo "Need a wasm32-capable C compiler: brew install llvm, or install zig" >&2
+    echo "(or use: $0 --docker)" >&2
+    exit 1
+  fi
 fi
 
 (cd crates/webzjs-wallet && wasm-pack build -t web --release --scope chainsafe \
