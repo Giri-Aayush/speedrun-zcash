@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { zecToZats } from '../lib/zec';
 
-export function SendZec() {
+export function SendZec({ onSent }: { onSent?: () => void }) {
   const { send, sending, balance } = useWebZjs();
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
@@ -22,6 +22,7 @@ export function SendZec() {
       setResult(`Sent ${amount} TAZ 🎉 — watch it confirm on the next sync.`);
       setTo('');
       setAmount('');
+      onSent?.();
     } catch (e) {
       setError(String(e));
     }

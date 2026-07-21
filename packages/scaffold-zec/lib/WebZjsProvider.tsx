@@ -147,12 +147,10 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
       try {
         const walletMod = await import('@chainsafe/webzjs-wallet');
         await walletMod.default();
-        if (!crossOriginIsolated) {
-          throw new Error(
-            'Page is not cross-origin isolated — COOP/COEP headers missing, WASM threads unavailable',
-          );
-        }
-        await walletMod.initThreadPool(navigator.hardwareConcurrency || 4);
+        // initThreadPool is deliberately not called: the vendor build ships
+        // without shared wasm memory, and a failed pool startup leaves rayon
+        // wedged. Single-threaded until the parallel build is fixed — see
+        // info/HANDOFF.md.
 
         const savedDb = await get(IDB_WALLET_KEY);
         const wallet = new walletMod.WebWallet(

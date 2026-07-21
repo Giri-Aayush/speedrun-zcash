@@ -1,6 +1,7 @@
 'use client';
 
-import { WebZjsProvider, useWebZjs } from '../lib/WebZjsProvider';
+import Link from 'next/link';
+import { useWebZjs } from '../lib/WebZjsProvider';
 import { CreateWallet } from '../components/CreateWallet';
 import { ShieldedBalance } from '../components/ShieldedBalance';
 import { AddressDisplay } from '../components/AddressDisplay';
@@ -47,20 +48,18 @@ function Dashboard() {
 
 export default function Home() {
   return (
-    <WebZjsProvider>
-      <main>
-        <header>
-          <h1>
-            🛡️ Scaffold-ZEC{' '}
-            <span className="badge">testnet</span>
-          </h1>
-          <p className="tagline">
-            The Speedrun Zcash starter — an in-browser shielded wallet, running
-            entirely client-side via WASM.
-          </p>
-        </header>
-        <Dashboard />
-      </main>
-    </WebZjsProvider>
+    <main>
+      <header>
+        <h1>
+          🛡️ Scaffold-ZEC <span className="badge">testnet</span>
+        </h1>
+        <p className="tagline">
+          The Speedrun Zcash starter — an in-browser shielded wallet, running
+          entirely client-side via WASM. New here? Start with{' '}
+          <Link href="/challenges">the challenges</Link>.
+        </p>
+      </header>
+      <Dashboard />
+    </main>
   );
 }
