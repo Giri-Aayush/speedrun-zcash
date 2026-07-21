@@ -32,14 +32,16 @@ export default function Home() {
   return (
     <main>
       <div className="relative isolate overflow-hidden">
+        {/* Fills the whole hero viewport, behind the framed headline. */}
+        <WarpBackground className="-z-10" />
         <CursorTrail />
 
         <section className="wrap relative flex flex-col items-center gap-9 pt-28 pb-24 text-center">
           <div className="hero-frame rise" style={{ animationDelay: '90ms' }}>
-            {/* Background layers — inside the border, behind the headline:
-                the gold radial wash, with the warp grid running over it. */}
+            {/* Background layer — sits inside the border and behind the
+                headline. Point .hero-frame__bg at an image to replace the
+                gradient. */}
             <div className="hero-frame__bg" aria-hidden="true" />
-            <WarpBackground className="-z-10" />
 
             <span className="hero-bracket hero-bracket--tl" aria-hidden="true" />
             <span className="hero-bracket hero-bracket--tr" aria-hidden="true" />
