@@ -59,8 +59,7 @@ export default function Home() {
             className="lede rise mx-auto"
             style={{ animationDelay: '210ms' }}
           >
-            No crypto background needed. Learn by doing — against a real
-            shielded wallet in your browser.
+            No crypto background needed — learn by doing, on a real wallet.
           </p>
 
           <div
