@@ -3,7 +3,7 @@
 import { use } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Chip } from '@heroui/react';
+import { Alert, Chip, Surface } from '@heroui/react';
 import { getChallenge } from '../../../lib/challenges';
 import { WalletBoot } from '../../../components/WalletBoot';
 import { Notice } from '../../../components/Notice';
@@ -16,7 +16,10 @@ export default function ChallengePage({
 }) {
   const { slug } = use(params);
   const challenge = getChallenge(slug);
-  if (!challenge || challenge.status !== 'live') notFound();
+  // Lessons are published as they're written; only true stubs 404.
+  if (!challenge || (challenge.status !== 'live' && challenge.lesson.length === 0))
+    notFound();
+  const live = challenge.status === 'live';
 
   return (
     <main className="wrap section flex max-w-[760px] flex-col gap-10">
@@ -53,6 +56,28 @@ export default function ChallengePage({
         built in this tab, so a send takes around 30 seconds.
       </Notice>
 
+      <Surface
+        variant="transparent"
+        className="flex flex-col gap-2 rounded-2xl p-6"
+        style={{ border: '1px solid var(--hairline)' }}
+      >
+        <span className="eyebrow">
+          Codebase you’ll meet · {challenge.codebase.name}
+        </span>
+        <p className="m-0 text-[14.5px] leading-[1.7] muted">
+          {challenge.codebase.whatItDoes}
+        </p>
+        <a
+          href={challenge.codebase.repo}
+          target="_blank"
+          rel="noreferrer"
+          className="link mono self-start text-[12.5px]"
+          style={{ color: 'var(--accent)' }}
+        >
+          {challenge.codebase.repo.replace('https://', '')} ↗
+        </a>
+      </Surface>
+
       {challenge.lesson.map((section) => (
         <section key={section.heading} className="flex flex-col gap-3">
           <h2 className="card-title">{section.heading}</h2>
@@ -68,8 +93,52 @@ export default function ChallengePage({
         <Challenge0Play challenge={challenge} />
       )}
 
+      {!live && challenge.steps.length > 0 && (
+        <section className="flex flex-col gap-4">
+          <h2 className="card-title">What you’ll do</h2>
+          <ol className="m-0 flex list-none flex-col gap-4 p-0">
+            {challenge.steps.map((step, i) => (
+              <li key={step.id} className="flex gap-4">
+                <span
+                  className="mono flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12px]"
+                  style={{ border: '1px solid var(--edge)', color: 'var(--dim)' }}
+                >
+                  {i + 1}
+                </span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[15.5px] font-semibold">
+                      {step.title}
+                    </span>
+                    {step.verification === 'chain' && (
+                      <Chip size="sm" variant="soft" className="mono">
+                        chain-verified
+                      </Chip>
+                    )}
+                  </div>
+                  <p className="m-0 text-[14px] leading-[1.6] muted">
+                    {step.detail}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Alert status="accent">
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Description>
+                The interactive run panel for this challenge is being built —
+                these steps will check themselves here, the way challenge #0’s
+                do. The lesson above is ready now.
+              </Alert.Description>
+            </Alert.Content>
+          </Alert>
+        </section>
+      )}
+
       {challenge.gotcha && (
-        <section
+        <Surface
+          variant="transparent"
           className="flex flex-col gap-3 rounded-2xl p-6"
           style={{
             border: '1px solid rgba(244,183,40,.25)',
@@ -84,7 +153,7 @@ export default function ChallengePage({
               {paragraph}
             </p>
           ))}
-        </section>
+        </Surface>
       )}
     </main>
   );

@@ -41,10 +41,17 @@ export function ChallengeRow({
     </>
   );
 
-  if (!live) return <div className="row row-soon">{body}</div>;
+  // Lessons are readable before the interactive run panel ships, so any
+  // challenge with written content links through; only true stubs stay flat.
+  const readable = live || challenge.lesson.length > 0;
+
+  if (!readable) return <div className="row row-soon">{body}</div>;
 
   return (
-    <Link href={`/challenges/${challenge.slug}`} className="row row-live">
+    <Link
+      href={`/challenges/${challenge.slug}`}
+      className={live ? 'row row-live' : 'row row-soon'}
+    >
       {body}
     </Link>
   );

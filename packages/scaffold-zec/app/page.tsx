@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { challenges } from '../lib/challenges';
-import { ChallengeRow } from '../components/ChallengeRow';
+import { LEVELS, challenges } from '../lib/challenges';
+import { ChallengeTrack } from '../components/ChallengeTrack';
 import { ChainTip } from '../components/ChainTip';
 import { CursorTrail } from '../components/CursorTrail';
 import { ArrowLink } from '../components/ArrowLink';
@@ -12,7 +12,7 @@ const STEPS = [
   {
     label: '01 — READ',
     title: 'A short lesson',
-    body: 'Two minutes of the crypto that matters. No fluff.',
+    body: 'Two minutes, starting from zero — the first ones explain like you’re five. No jargon before its time.',
   },
   {
     label: '02 — BUILD',
@@ -59,9 +59,11 @@ export default function Home() {
             className="lede rise mx-auto"
             style={{ animationDelay: '210ms' }}
           >
-            Learn to build privacy apps on Zcash through numbered challenges —
-            with a real shielded wallet running in your browser. Steps clear
-            themselves. Nothing to install.
+            Never touched Zcash — or crypto at all? Perfect. This is an
+            interactive journey from zero to contributing to the codebases
+            Zcash runs on. You learn by doing, not by reading: every challenge
+            happens against a real shielded wallet in your browser. Steps
+            clear themselves. Nothing to install.
           </p>
 
           <div
@@ -109,6 +111,41 @@ export default function Home() {
         <div className="rule" />
       </div>
 
+      <section className="wrap section flex flex-col gap-7">
+        <div className="flex flex-col gap-3">
+          <span className="eyebrow">The path</span>
+          <h2 className="display text-[28px]">
+            Arrive knowing nothing. Leave a Zcash contributor.
+          </h2>
+          <p className="lede">
+            One track, four levels, ten challenges — taken slowly, each
+            assuming only the one before it. And each challenge introduces one
+            real codebase — WebZjs, librustzcash, Zebra, Zaino, orchard — so
+            by the end you know what every library does and have used them
+            all.
+          </p>
+        </div>
+        <div className="grid gap-12 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+          {LEVELS.map((level, i) => (
+            <div key={level.id} className="flex flex-col gap-3">
+              <span
+                className="mono text-[12px]"
+                style={{ color: 'var(--gold)' }}
+              >
+                {String(i + 1).padStart(2, '0')} — {level.label.toUpperCase()}
+              </span>
+              <p className="m-0 text-[14.5px] leading-[1.6] muted">
+                {level.outcome}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="wrap">
+        <div className="rule" />
+      </div>
+
       <section id="challenges" className="wrap section flex flex-col gap-7">
         <Notice
           id="open-source"
@@ -122,18 +159,73 @@ export default function Home() {
         </Notice>
 
         <div className="flex items-baseline gap-4">
-          <h2 className="display text-[28px]">Challenges</h2>
+          <h2 className="display text-[28px]">The curriculum</h2>
           <span className="mono ml-auto text-[12px]" style={{ color: 'var(--dim)' }}>
             {challenges.filter((c) => c.status === 'live').length}/
             {challenges.length} live
           </span>
         </div>
 
-        <div className="flex flex-col">
-          {challenges.map((challenge, i) => (
-            <div key={challenge.slug}>
-              {i > 0 && <div className="row-divider" />}
-              <ChallengeRow challenge={challenge} />
+        <ChallengeTrack />
+      </section>
+
+      <div className="wrap">
+        <div className="rule" />
+      </div>
+
+      <section className="wrap section flex flex-col gap-7">
+        <div className="flex flex-col gap-3">
+          <span className="eyebrow">After the capstone</span>
+          <h2 className="display text-[28px]">Where this leads</h2>
+          <p className="lede">
+            Speedrun Zcash is the gym, not the library. Finish the track and
+            the ecosystem is ready for you — codebases, collaborators, and
+            funding included.
+          </p>
+        </div>
+        <div className="grid gap-12 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+          {[
+            {
+              title: 'Get your work funded',
+              body: 'Zcash Community Grants funds builders shipping on the protocol — capstone projects are exactly the kind of thing it exists for.',
+              label: 'zcashcommunitygrants.org ↗',
+              href: 'https://zcashcommunitygrants.org',
+            },
+            {
+              title: 'Build with the core teams',
+              body: 'librustzcash, Zebra, Zaino, WebZjs — the codebases this track trains you for are developed in the open, and the capstone lands your first PR in one.',
+              label: 'github.com/zcash ↗',
+              href: 'https://github.com/zcash',
+            },
+            {
+              title: 'Join the conversation',
+              body: 'The community forum is where protocol changes, grants, and new projects get discussed — and where builders find collaborators.',
+              label: 'forum.zcashcommunity.com ↗',
+              href: 'https://forum.zcashcommunity.com',
+            },
+            {
+              title: 'Prefer reading? ZecHub',
+              body: 'We teach by doing; ZecHub is the community’s encyclopedia — guides, wiki, and ecosystem news. Read there, train here. They compound.',
+              label: 'zechub.wiki ↗',
+              href: 'https://zechub.wiki',
+            },
+          ].map((item) => (
+            <div key={item.href} className="flex flex-col gap-3">
+              <span className="card-title">{item.title}</span>
+              <p className="m-0 text-[14.5px] leading-[1.6] muted">
+                {item.body}
+              </p>
+              {/* Server component, so the HeroUI Link styles come via its
+                  documented BEM class rather than the client-only import. */}
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="link mono self-start text-[12.5px]"
+                style={{ color: 'var(--accent)' }}
+              >
+                {item.label}
+              </a>
             </div>
           ))}
         </div>

@@ -1,27 +1,21 @@
-import { challenges } from '../../lib/challenges';
-import { ChallengeRow } from '../../components/ChallengeRow';
+import { ChallengeTrack } from '../../components/ChallengeTrack';
 
 export const metadata = { title: 'Challenges · Speedrun Zcash' };
 
 export default function ChallengesPage() {
   return (
-    <main className="wrap section flex flex-col gap-7">
+    <main className="wrap section flex flex-col gap-10">
       <div className="flex flex-col gap-3">
         <span className="eyebrow">The curriculum</span>
-        <h1 className="display text-[40px]">Challenges</h1>
+        <h1 className="display text-[40px]">Zero to Zcash contributor</h1>
         <p className="lede">
-          Each one ships something real and unlocks the next. Start at zero.
+          Ten challenges, four levels, taken slowly — each ships something
+          real, unlocks the next, and introduces one of the codebases Zcash
+          runs on. Start knowing nothing; finish landing pull requests.
         </p>
       </div>
 
-      <div className="flex flex-col">
-        {challenges.map((challenge, i) => (
-          <div key={challenge.slug}>
-            {i > 0 && <div className="row-divider" />}
-            <ChallengeRow challenge={challenge} />
-          </div>
-        ))}
-      </div>
+      <ChallengeTrack />
     </main>
   );
 }

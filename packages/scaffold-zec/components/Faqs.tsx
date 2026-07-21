@@ -4,6 +4,18 @@ import { Accordion } from '@heroui/react';
 
 const FAQS = [
   {
+    id: 'zero-knowledge',
+    question: 'I know nothing about Zcash — or crypto. Can I start?',
+    answer:
+      'Yes — that is exactly who challenge #0 is written for. The early lessons assume zero background and explain everything in plain words; the technical depth arrives gradually, level by level, and nothing is assumed before it has been taught.',
+  },
+  {
+    id: 'zechub',
+    question: 'How is this different from ZecHub?',
+    answer:
+      'ZecHub is the community’s encyclopedia — guides, a wiki, ecosystem news, and it is excellent. Speedrun Zcash is the gym: everything here is an interactive challenge against a live shielded wallet, in the spirit of Speedrun Ethereum. When you want to read, go there; when you want to build, come here.',
+  },
+  {
     id: 'cost',
     question: 'Is it really free?',
     answer:

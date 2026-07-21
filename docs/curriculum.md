@@ -1,5 +1,13 @@
 # Speedrun Zcash — Proposed Curriculum
 
+> **Live track note (July 2026):** the shipped curriculum lives in
+> `packages/scaffold-zec/lib/challenges.ts` — ten challenges (#0–#9) in four
+> levels, ending in an upstream-contribution capstone, with one ecosystem
+> codebase spotlighted per challenge. It diverges from the proposal below in
+> two ways: a gentle "Watch the Chain" challenge was inserted at #1 to slow
+> the early ramp, and Mobile (#6 below) and Interop (#8 below) moved to the
+> side-quest pool in favor of "Your First Upstream Contribution" as #9.
+
 > Modeled on Speedrun Ethereum, adapted to Zcash's reality: there are no smart
 > contracts, so challenges produce **deployed apps, live infrastructure, and
 > verifiable testnet transactions** instead of deployed contracts. The
