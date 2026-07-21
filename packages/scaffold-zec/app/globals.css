@@ -369,6 +369,75 @@ a {
   transform: scale(0.97);
 }
 
+/* Sparks --------------------------------------------------------------
+   Glyphs that tuck behind an element and fly out on hover. Shared by the
+   hero badge and the notice; transitions rather than an animation library,
+   since this is the only motion of its kind in the app. */
+
+.spark {
+  position: absolute;
+  color: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.35s ease;
+}
+
+.spark--tl {
+  top: 2px;
+  left: 8px;
+}
+
+.spark--br {
+  bottom: 2px;
+  right: 8px;
+}
+
+:hover > .spark--tl {
+  opacity: 0.9;
+  transform: translate(-13px, -13px) rotate(360deg);
+}
+
+:hover > .spark--br {
+  opacity: 0.9;
+  transform: translate(13px, 13px) rotate(360deg);
+}
+
+/* Hero badge ----------------------------------------------------------- */
+
+.hero-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 15px;
+  border-radius: 99px;
+  border: 1px solid var(--hairline);
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--font-mono), monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.hero-badge:hover {
+  border-color: var(--gold-edge);
+  background: var(--gold-wash);
+  color: var(--muted);
+}
+
+.hero-badge__arrow {
+  color: var(--faint);
+  transition: color 0.2s ease;
+}
+
+.hero-badge:hover .hero-badge__arrow {
+  color: var(--accent);
+}
+
 /* Notice -------------------------------------------------------------- */
 
 .notice {
@@ -381,38 +450,6 @@ a {
   background: var(--gold-wash);
   border-radius: var(--radius);
   color: var(--muted);
-}
-
-/* Glyphs tuck behind the notice and fly out on hover. Transitions rather
-   than an animation library — this is the only motion of its kind here. */
-.notice-spark {
-  position: absolute;
-  color: var(--accent);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
-    opacity 0.35s ease;
-}
-
-.notice-spark--a {
-  top: 2px;
-  left: 6px;
-}
-
-.notice-spark--b {
-  bottom: 2px;
-  left: 5.5rem;
-}
-
-.notice:hover .notice-spark--a {
-  opacity: 0.9;
-  transform: translate(-11px, -11px) rotate(360deg);
-}
-
-.notice:hover .notice-spark--b {
-  opacity: 0.9;
-  transform: translate(11px, 11px) rotate(360deg);
 }
 
 .notice-action {

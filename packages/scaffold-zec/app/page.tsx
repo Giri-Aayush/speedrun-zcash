@@ -6,6 +6,7 @@ import { CursorTrail } from '../components/CursorTrail';
 import { ArrowLink } from '../components/ArrowLink';
 import { Notice } from '../components/Notice';
 import { Faqs } from '../components/Faqs';
+import { HeroBadge } from '../components/HeroBadge';
 
 const STEPS = [
   {
@@ -35,12 +36,8 @@ export default function Home() {
         <div className="hero-glow" aria-hidden="true" />
 
         <section className="wrap relative flex flex-col items-center gap-9 pt-28 pb-24 text-center">
-          <div
-            className="eyebrow rise flex items-center gap-[10px]"
-            style={{ animationDelay: '0ms' }}
-          >
-            <span className="dot dot-live" />
-            Open source · Zcash testnet · Live
+          <div className="rise" style={{ animationDelay: '0ms' }}>
+            <HeroBadge />
           </div>
 
           <div className="hero-frame rise" style={{ animationDelay: '90ms' }}>
