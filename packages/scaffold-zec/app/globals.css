@@ -135,13 +135,20 @@ a {
 
 /* A complete rectangle, not a dissolving one: the border closes on all four
    sides so the frame reads as a container, and anything dropped into
-   .hero-frame__bg sits inside it. */
+   .hero-frame__bg sits inside it.
+
+   Opaque on purpose: the warp grid runs behind the whole hero, and the
+   frame is meant to read as a solid block standing in front of it — beams
+   leak out around its edges, never through it. The dark halo separates
+   the block from the glow behind. */
 .hero-frame {
   position: relative;
   isolation: isolate;
   width: 100%;
   padding: clamp(44px, 7vw, 92px) clamp(24px, 5vw, 64px);
   border: 1px solid rgba(255, 255, 255, 0.11);
+  background: var(--background);
+  box-shadow: 0 0 90px rgba(0, 0, 0, 0.85);
 }
 
 /**
