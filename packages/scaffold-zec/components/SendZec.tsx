@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { Alert, Button, Card, Input, ProgressBar, Spinner } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { zecToZats } from '../lib/zec';
+import { describeWalletError } from '../lib/walletError';
 
 export function SendZec({ onSent }: { onSent?: () => void }) {
   const { send, sending, balance } = useWebZjs();
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
   const [result, setResult] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<unknown>(null);
 
   const spendable = (balance?.sapling ?? 0) + (balance?.orchard ?? 0);
 
@@ -24,9 +25,11 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
       setAmount('');
       onSent?.();
     } catch (e) {
-      setError(String(e));
+      setError(e);
     }
   };
+
+  const problem = error ? describeWalletError(error) : null;
 
   return (
     <Card>
@@ -102,11 +105,12 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
             </Alert.Content>
           </Alert>
         )}
-        {error && (
-          <Alert status="danger">
+        {problem && (
+          <Alert status={problem.kind === 'connection' ? 'warning' : 'danger'}>
             <Alert.Indicator />
             <Alert.Content>
-              <Alert.Description>{error}</Alert.Description>
+              <Alert.Title>{problem.title}</Alert.Title>
+              <Alert.Description>{problem.message}</Alert.Description>
             </Alert.Content>
           </Alert>
         )}

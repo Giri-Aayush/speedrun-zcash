@@ -10,6 +10,7 @@ import { AddressDisplay } from '../../components/AddressDisplay';
 import { SendZec } from '../../components/SendZec';
 import { SyncStatus } from '../../components/SyncStatus';
 import { Notice } from '../../components/Notice';
+import { describeWalletError } from '../../lib/walletError';
 
 function Dashboard() {
   const { status, error } = useWebZjs();
@@ -35,16 +36,20 @@ function Dashboard() {
           <Card.Title className="panel-title">Wallet failed to start</Card.Title>
         </Card.Header>
         <Card.Content className="flex flex-col gap-3">
-          <Alert status="danger">
-            <Alert.Indicator />
-            <Alert.Content>
-              <Alert.Description>{error}</Alert.Description>
-            </Alert.Content>
-          </Alert>
-          <p className="hint m-0">
-            Most likely no lightwalletd proxy is running. Start one with{' '}
-            <code>./infra/run-testnet-proxy.sh</code> from the repo root.
-          </p>
+          {(() => {
+            const problem = describeWalletError(error);
+            return (
+              <Alert
+                status={problem.kind === 'connection' ? 'warning' : 'danger'}
+              >
+                <Alert.Indicator />
+                <Alert.Content>
+                  <Alert.Title>{problem.title}</Alert.Title>
+                  <Alert.Description>{problem.message}</Alert.Description>
+                </Alert.Content>
+              </Alert>
+            );
+          })()}
         </Card.Content>
       </Card>
     );

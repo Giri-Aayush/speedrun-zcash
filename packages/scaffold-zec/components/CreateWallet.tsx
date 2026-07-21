@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import { Alert, Button, Card, Spinner, TextArea } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
+import { describeWalletError } from '../lib/walletError';
 
 export function CreateWallet() {
   const { createWallet, restoreWallet } = useWebZjs();
   const [mode, setMode] = useState<'choose' | 'created' | 'restore'>('choose');
   const [seed, setSeed] = useState('');
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<unknown>(null);
 
   const onCreate = async () => {
     setBusy(true);
@@ -18,7 +19,7 @@ export function CreateWallet() {
       setSeed(await createWallet());
       setMode('created');
     } catch (e) {
-      setError(String(e));
+      setError(e);
     } finally {
       setBusy(false);
     }
@@ -30,11 +31,14 @@ export function CreateWallet() {
     try {
       await restoreWallet(seed);
     } catch (e) {
-      setError(String(e));
+      setError(e);
     } finally {
       setBusy(false);
     }
   };
+
+  const problem = error ? describeWalletError(error) : null;
+  const retry = mode === 'restore' ? onRestore : onCreate;
 
   return (
     <Card>
@@ -125,11 +129,23 @@ export function CreateWallet() {
           </>
         )}
 
-        {error && (
-          <Alert status="danger">
+        {problem && (
+          <Alert status={problem.kind === 'connection' ? 'warning' : 'danger'}>
             <Alert.Indicator />
             <Alert.Content>
-              <Alert.Description>{error}</Alert.Description>
+              <Alert.Title>{problem.title}</Alert.Title>
+              <Alert.Description>{problem.message}</Alert.Description>
+              {problem.kind === 'connection' && (
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="mt-2"
+                  onPress={retry}
+                  isPending={busy}
+                >
+                  Try again
+                </Button>
+              )}
             </Alert.Content>
           </Alert>
         )}

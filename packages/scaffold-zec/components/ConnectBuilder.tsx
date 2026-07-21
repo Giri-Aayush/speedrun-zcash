@@ -2,9 +2,11 @@
 
 import { Alert, Button, Spinner, Surface } from '@heroui/react';
 import { useBuilder } from '../lib/BuilderProvider';
+import { describeWalletError } from '../lib/walletError';
 
 export function ConnectBuilder() {
   const { builderId, connect, connecting, error, canConnect } = useBuilder();
+  const problem = error ? describeWalletError(error) : null;
 
   if (builderId) {
     return (
@@ -59,11 +61,12 @@ export function ConnectBuilder() {
           <span className="hint">Create a wallet below first.</span>
         )}
       </div>
-      {error && (
-        <Alert status="danger">
+      {problem && (
+        <Alert status={problem.kind === 'connection' ? 'warning' : 'danger'}>
           <Alert.Indicator />
           <Alert.Content>
-            <Alert.Description>{error}</Alert.Description>
+            <Alert.Title>{problem.title}</Alert.Title>
+            <Alert.Description>{problem.message}</Alert.Description>
           </Alert.Content>
         </Alert>
       )}
