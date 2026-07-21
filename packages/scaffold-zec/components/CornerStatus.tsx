@@ -12,8 +12,10 @@ export function CornerStatus() {
         <span
           className="flex items-center gap-2 rounded-full border py-1 pl-[6px] pr-3 backdrop-blur-md"
           style={{
-            borderColor: 'var(--hairline)',
-            background: 'rgba(255, 255, 255, 0.03)',
+            borderColor: 'rgba(255, 255, 255, 0.16)',
+            background: 'rgba(18, 18, 22, 0.9)',
+            boxShadow:
+              '0 10px 34px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
           }}
         >
           <span
@@ -40,10 +42,12 @@ export function CornerStatus() {
         className="group fixed right-6 top-6 z-50 flex h-12 items-center"
       >
         <span
-          className="flex items-center gap-2 rounded-full border py-1 pl-[6px] pr-3 backdrop-blur-md transition-colors"
+          className="flex items-center gap-2 rounded-full border py-1 pl-[6px] pr-3 backdrop-blur-md transition-colors group-hover:border-[var(--gold-edge)]"
           style={{
-            borderColor: 'var(--hairline)',
-            background: 'rgba(255, 255, 255, 0.03)',
+            borderColor: 'rgba(255, 255, 255, 0.16)',
+            background: 'rgba(18, 18, 22, 0.9)',
+            boxShadow:
+              '0 10px 34px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
           }}
         >
           <span

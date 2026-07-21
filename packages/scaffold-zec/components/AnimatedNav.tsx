@@ -139,12 +139,15 @@ export function AnimatedNav() {
           !isExpanded && 'cursor-pointer justify-center',
         )}
         style={{
-          border: '1px solid var(--hairline)',
-          backgroundColor: 'rgba(10, 10, 12, 0.72)',
-          // The hero frame's background layer, borrowed verbatim so the
-          // pill reads as part of the hero (see .hero-frame__bg).
+          border: '1px solid rgba(255, 255, 255, 0.16)',
+          backgroundColor: 'rgba(18, 18, 22, 0.9)',
+          // A gold wash on top of the solid fill, plus a lift shadow and a
+          // faint inner top highlight so the pill reads as a raised chip
+          // against the dark warp rather than dissolving into it.
           backgroundImage:
-            'radial-gradient(120% 90% at 50% 45%, rgba(244, 183, 40, 0.14), transparent 68%)',
+            'radial-gradient(120% 90% at 50% 45%, rgba(244, 183, 40, 0.16), transparent 68%)',
+          boxShadow:
+            '0 10px 34px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
         }}
       >
         <motion.div
