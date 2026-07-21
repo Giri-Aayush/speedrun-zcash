@@ -3,6 +3,7 @@ import Link from 'next/link';
 import './globals.css';
 import { display, sans, mono } from './fonts';
 import { Providers } from '../components/Providers';
+import { Footer } from '../components/Footer';
 
 export const metadata: Metadata = {
   title: 'Speedrun Zcash',
@@ -57,21 +58,7 @@ export default function RootLayout({
 
           {children}
 
-          <div className="wrap">
-            <div className="rule" />
-          </div>
-          <footer className="wrap flex flex-wrap items-center gap-4 py-8 text-[12px]">
-            <span className="meta">© 2026 Speedrun Zcash</span>
-            <span className="meta">MIT</span>
-            <div className="ml-auto flex gap-5">
-              <a href={REPO} target="_blank" rel="noreferrer" className="meta hover:text-[var(--gold)]">
-                github
-              </a>
-              <a href="https://z.cash" target="_blank" rel="noreferrer" className="meta hover:text-[var(--gold)]">
-                z.cash
-              </a>
-            </div>
-          </footer>
+          <Footer />
         </Providers>
       </body>
     </html>
