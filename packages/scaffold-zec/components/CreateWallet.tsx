@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, Spinner, TextArea } from '@heroui/react';
+import { Alert, Button, Card, Spinner, TextArea } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 
 export function CreateWallet() {
@@ -125,7 +125,14 @@ export function CreateWallet() {
           </>
         )}
 
-        {error && <p className="error m-0">{error}</p>}
+        {error && (
+          <Alert status="danger">
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Description>{error}</Alert.Description>
+            </Alert.Content>
+          </Alert>
+        )}
       </Card.Content>
     </Card>
   );

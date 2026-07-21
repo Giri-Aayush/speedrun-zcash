@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card } from '@heroui/react';
+import { Button, Card, Link } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { shortenAddress } from '../lib/zec';
 
@@ -63,14 +63,15 @@ export function AddressDisplay() {
         />
         <p className="hint m-0">
           Fund it from the{' '}
-          <a
+          <Link
             href="https://faucet.zecpages.com/"
             target="_blank"
             rel="noreferrer"
+            className="text-[length:inherit]"
             style={{ color: 'var(--accent)' }}
           >
             testnet faucet
-          </a>
+          </Link>
           . Anything the transparent address touches is public forever.
         </p>
       </Card.Content>

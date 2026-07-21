@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ProgressBar } from '@heroui/react';
+import { Button, ProgressBar, Surface } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 
 export function SyncStatus() {
@@ -29,7 +29,8 @@ export function SyncStatus() {
   const behind = scanned !== null && tip !== null ? tip - scanned : 0;
 
   return (
-    <div
+    <Surface
+      variant="transparent"
       className="flex flex-col gap-2 rounded-xl px-4 py-3"
       style={{ border: '1px solid var(--hairline)' }}
     >
@@ -72,6 +73,6 @@ export function SyncStatus() {
           </ProgressBar.Track>
         </ProgressBar>
       )}
-    </div>
+    </Surface>
   );
 }

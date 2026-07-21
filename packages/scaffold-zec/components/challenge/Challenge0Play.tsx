@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Card, Chip, ProgressBar } from '@heroui/react';
+import { Alert, Card, Chip, Link, ProgressBar, Spinner } from '@heroui/react';
 import type { Challenge } from '../../lib/challenges';
 import { useWebZjs } from '../../lib/WebZjsProvider';
 import { useBuilder } from '../../lib/BuilderProvider';
@@ -188,15 +188,15 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
                   </p>
                 )}
                 {step.id === 'fund' && (
-                  <a
+                  <Link
                     href="https://faucet.zecpages.com/"
                     target="_blank"
                     rel="noreferrer"
-                    className="mono text-[12.5px]"
+                    className="mono self-start text-[12.5px]"
                     style={{ color: 'var(--accent)' }}
                   >
                     faucet.zecpages.com ↗
-                  </a>
+                  </Link>
                 )}
               </div>
             </li>
@@ -209,13 +209,18 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
       <div className="rule" />
 
       {status === 'error' ? (
-        <p className="error m-0">
-          Wallet failed to start — is the lightwalletd proxy running?{' '}
-          <code>./infra/run-testnet-proxy.sh</code>
-        </p>
+        <Alert status="danger">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Description>
+              Wallet failed to start — is the lightwalletd proxy running?{' '}
+              <code>./infra/run-testnet-proxy.sh</code>
+            </Alert.Description>
+          </Alert.Content>
+        </Alert>
       ) : status === 'idle' || status === 'initializing' ? (
         <div className="flex items-center gap-3">
-          <span className="dot dot-busy" />
+          <Spinner size="sm" aria-label="Starting the light client" />
           <span className="muted text-sm">Starting the light client…</span>
         </div>
       ) : status === 'no-account' ? (
@@ -232,10 +237,15 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
       )}
 
       {allDone && (
-        <p className="success m-0">
-          Challenge cleared — and the chain-verified steps were proven against
-          the chain itself, not taken on your word.
-        </p>
+        <Alert status="success">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Description>
+              Challenge cleared — and the chain-verified steps were proven
+              against the chain itself, not taken on your word.
+            </Alert.Description>
+          </Alert.Content>
+        </Alert>
       )}
       </Card.Content>
     </Card>

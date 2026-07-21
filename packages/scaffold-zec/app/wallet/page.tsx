@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Card } from '@heroui/react';
+import { Alert, Card, Spinner } from '@heroui/react';
 import { useWebZjs } from '../../lib/WebZjsProvider';
 import { WalletBoot } from '../../components/WalletBoot';
 import { CreateWallet } from '../../components/CreateWallet';
@@ -18,7 +18,7 @@ function Dashboard() {
     return (
       <Card>
         <Card.Content className="flex items-center gap-3">
-          <span className="dot dot-busy" />
+          <Spinner size="sm" aria-label="Starting the light client" />
           <span className="muted text-sm">
             Starting the light client — the proving parameters are a large
             download the first time.
@@ -35,7 +35,12 @@ function Dashboard() {
           <Card.Title className="panel-title">Wallet failed to start</Card.Title>
         </Card.Header>
         <Card.Content className="flex flex-col gap-3">
-          <p className="error m-0">{error}</p>
+          <Alert status="danger">
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Description>{error}</Alert.Description>
+            </Alert.Content>
+          </Alert>
           <p className="hint m-0">
             Most likely no lightwalletd proxy is running. Start one with{' '}
             <code>./infra/run-testnet-proxy.sh</code> from the repo root.
@@ -69,7 +74,13 @@ export default function WalletPage() {
         <p className="lede">
           A shielded wallet running entirely in this tab. Keys never leave your
           machine. New here? Start with{' '}
-          <Link href="/challenges" style={{ color: 'var(--accent)' }}>
+          {/* NextLink keeps client-side routing; the `link` BEM class is the
+              HeroUI-documented way to style framework links. */}
+          <Link
+            href="/challenges"
+            className="link"
+            style={{ color: 'var(--accent)' }}
+          >
             the challenges
           </Link>
           .

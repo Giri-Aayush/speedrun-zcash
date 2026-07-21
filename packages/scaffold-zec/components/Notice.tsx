@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button } from '@heroui/react';
+import { Button, Link, Surface } from '@heroui/react';
 import { ShieldGlyph } from './ShieldGlyph';
 
 /**
@@ -32,7 +32,7 @@ export function Notice({
   if (state !== 'shown') return null;
 
   return (
-    <div className="notice">
+    <Surface variant="transparent" className="notice">
       <span className="spark spark--tl" aria-hidden="true">
         <ShieldGlyph />
       </span>
@@ -43,14 +43,14 @@ export function Notice({
       <p className="m-0 text-[13.5px] leading-[1.5]">{children}</p>
 
       {action && (
-        <a
+        <Link
           href={action.href}
           target="_blank"
           rel="noreferrer"
-          className="notice-action"
+          className="notice-action no-underline"
         >
           {action.label}
-        </a>
+        </Link>
       )}
 
       <Button
@@ -65,6 +65,6 @@ export function Notice({
       >
         ✕
       </Button>
-    </div>
+    </Surface>
   );
 }

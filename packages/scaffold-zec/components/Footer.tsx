@@ -54,7 +54,10 @@ export function Footer() {
           <span style={{ color: 'var(--accent)', marginLeft: '-3px' }}>Zcash</span>
         </Link>
 
-        <ul className="m-0 flex list-none gap-3 p-0">
+        <ul className="m-0 flex list-none items-center gap-3 p-0">
+          <li>
+            <BuyMeACoffee />
+          </li>
           {SOCIAL.map((item) => (
             <li key={item.label}>
               <a
@@ -85,7 +88,6 @@ export function Footer() {
               Aayush Giri
             </a>
           </span>
-          <BuyMeACoffee />
         </div>
 
         <div className="flex flex-col gap-3 lg:items-end">

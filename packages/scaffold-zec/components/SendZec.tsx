@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, Input, ProgressBar, Spinner } from '@heroui/react';
+import { Alert, Button, Card, Input, ProgressBar, Spinner } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { zecToZats } from '../lib/zec';
 
@@ -94,8 +94,22 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
           </div>
         )}
 
-        {result && <p className="success m-0">{result}</p>}
-        {error && <p className="error m-0">{error}</p>}
+        {result && (
+          <Alert status="success">
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Description>{result}</Alert.Description>
+            </Alert.Content>
+          </Alert>
+        )}
+        {error && (
+          <Alert status="danger">
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Description>{error}</Alert.Description>
+            </Alert.Content>
+          </Alert>
+        )}
       </Card.Content>
     </Card>
   );

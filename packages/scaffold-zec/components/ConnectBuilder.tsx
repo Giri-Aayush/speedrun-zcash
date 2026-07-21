@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Spinner } from '@heroui/react';
+import { Alert, Button, Spinner, Surface } from '@heroui/react';
 import { useBuilder } from '../lib/BuilderProvider';
 
 export function ConnectBuilder() {
@@ -8,7 +8,8 @@ export function ConnectBuilder() {
 
   if (builderId) {
     return (
-      <div
+      <Surface
+        variant="transparent"
         className="flex flex-wrap items-center gap-3 rounded-xl px-4 py-3"
         style={{ border: '1px solid var(--hairline)' }}
       >
@@ -18,12 +19,13 @@ export function ConnectBuilder() {
           <code style={{ color: 'var(--accent)' }}>{builderId.slice(0, 8)}</code>{' '}
           — your run follows this seed to any browser.
         </span>
-      </div>
+      </Surface>
     );
   }
 
   return (
-    <div
+    <Surface
+      variant="transparent"
       className="flex flex-col gap-3 rounded-xl p-5"
       style={{
         border: '1px solid var(--gold-edge)',
@@ -57,7 +59,14 @@ export function ConnectBuilder() {
           <span className="hint">Create a wallet below first.</span>
         )}
       </div>
-      {error && <p className="error m-0">{error}</p>}
-    </div>
+      {error && (
+        <Alert status="danger">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Description>{error}</Alert.Description>
+          </Alert.Content>
+        </Alert>
+      )}
+    </Surface>
   );
 }
