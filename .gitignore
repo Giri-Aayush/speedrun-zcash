@@ -14,3 +14,6 @@ info/
 vendor/
 .claude/
 packages/scaffold-zec/public/webzjs/
+
+# Local database
+packages/scaffold-zec/.data/

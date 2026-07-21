@@ -2,6 +2,15 @@ export interface ChallengeStep {
   id: string;
   title: string;
   detail: string;
+  /**
+   * How the server confirms this step.
+   * 'attested' — nothing lands on chain (e.g. generating a seed), so the
+   *   builder's signed word is all there is; recorded as such, not as proof.
+   * 'chain' — requires a txid the server independently looks up on
+   *   lightwalletd. Shielded transactions hide amounts and parties, so
+   *   existence and inclusion in a block is exactly what can be verified.
+   */
+  verification: 'attested' | 'chain';
 }
 
 export interface Challenge {
@@ -56,18 +65,21 @@ export const challenges: Challenge[] = [
         title: 'Create your wallet',
         detail:
           'Generate a 24-word seed in the browser. The seed is the wallet — everything else is derived from it.',
+        verification: 'attested',
       },
       {
         id: 'fund',
         title: 'Get testnet ZEC from the faucet',
         detail:
           'Copy your unified address and request TAZ from a testnet faucet, then wait for the wallet to sync it. Testnet coins are worthless — perfect for breaking things.',
+        verification: 'chain',
       },
       {
         id: 'send',
         title: 'Send a shielded payment',
         detail:
           'Send some TAZ to any address — the challenge address works. Your browser builds a real zero-knowledge proof; expect it to take a few seconds.',
+        verification: 'chain',
       },
     ],
     gotcha: {

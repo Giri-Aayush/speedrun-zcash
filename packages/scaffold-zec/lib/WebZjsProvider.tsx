@@ -78,13 +78,27 @@ export interface WebZjsState {
   sending: boolean;
 }
 
+export interface TxSummary {
+  txid: string;
+  direction: 'received' | 'sent' | 'internal';
+  valueZats: number;
+  blockHeight: number | null;
+}
+
 export interface WebZjsApi extends WebZjsState {
   createWallet: () => Promise<string>;
   restoreWallet: (seedPhrase: string, birthday?: number) => Promise<void>;
   triggerSync: () => Promise<void>;
   send: (toAddress: string, amountZats: bigint) => Promise<void>;
+  listTransactions: () => Promise<TxSummary[]>;
   network: string;
 }
+
+const DIRECTIONS: Record<number, TxSummary['direction']> = {
+  0: 'received',
+  1: 'sent',
+  2: 'internal',
+};
 
 const Ctx = createContext<WebZjsApi | null>(null);
 
@@ -303,12 +317,34 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
     [state.accountId, persistDb, refreshFromWallet],
   );
 
+  // Transaction history is how a builder produces evidence for challenge
+  // steps: the txid of the faucet payment they received, or of the payment
+  // they sent, which the server then confirms on chain.
+  const listTransactions = useCallback(async (): Promise<TxSummary[]> => {
+    const wallet = walletRef.current;
+    if (!wallet || state.accountId === null) return [];
+    const history = await wallet.get_transaction_history(state.accountId, 25);
+    const entries = (history.transactions ?? []) as Array<{
+      txid: string;
+      tx_type: number;
+      value: bigint | number;
+      block_height?: number;
+    }>;
+    return entries.map((tx) => ({
+      txid: tx.txid,
+      direction: DIRECTIONS[tx.tx_type] ?? 'internal',
+      valueZats: Number(tx.value),
+      blockHeight: tx.block_height ?? null,
+    }));
+  }, [state.accountId]);
+
   const api: WebZjsApi = {
     ...state,
     createWallet,
     restoreWallet,
     triggerSync,
     send,
+    listTransactions,
     network: NETWORK,
   };
 
