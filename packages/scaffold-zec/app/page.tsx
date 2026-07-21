@@ -3,6 +3,7 @@ import { challenges } from '../lib/challenges';
 import { ChallengeRow } from '../components/ChallengeRow';
 import { ChainTip } from '../components/ChainTip';
 import { CursorTrail } from '../components/CursorTrail';
+import { ArrowLink } from '../components/ArrowLink';
 
 const STEPS = [
   {
@@ -67,12 +68,9 @@ export default function Home() {
             {/* These navigate, so they stay anchors and borrow HeroUI's button
                 styling through its BEM classes rather than becoming buttons. */}
             {first && (
-              <Link
-                href={`/challenges/${first.slug}`}
-                className="button button--primary button--lg"
-              >
+              <ArrowLink href={`/challenges/${first.slug}`}>
                 Start Challenge #{first.number}
-              </Link>
+              </ArrowLink>
             )}
             <Link
               href="/challenges"

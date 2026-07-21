@@ -326,6 +326,49 @@ a {
   margin-inline: 18px;
 }
 
+/* Call to action ------------------------------------------------------ */
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  /* Room for the resting plate so the label never sits under it. */
+  padding-right: 3.4rem;
+}
+
+.cta__label {
+  transition: opacity 0.45s ease;
+}
+
+.cta:hover .cta__label {
+  opacity: 0;
+}
+
+.cta__plate {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  bottom: 4px;
+  width: 2.4rem;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  /* The button's own ink at low alpha, so the plate reads as a shadow on
+     the gold rather than a second colour. */
+  background: color-mix(in srgb, var(--accent-foreground) 16%, transparent);
+  color: var(--accent-foreground);
+  transition:
+    width 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.12s ease;
+}
+
+.cta:hover .cta__plate {
+  width: calc(100% - 8px);
+}
+
+.cta:active .cta__plate {
+  transform: scale(0.97);
+}
+
 /* Notice -------------------------------------------------------------- */
 
 .notice {
