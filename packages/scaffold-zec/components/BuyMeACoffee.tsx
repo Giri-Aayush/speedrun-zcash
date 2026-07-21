@@ -136,7 +136,7 @@ export function BuyMeACoffee() {
               <p className="m-0 text-[14.5px] leading-[1.6] muted">
                 Speedrun Zcash is free and open source. If it taught you
                 something, you can support the project with a shielded ZEC
-                donation — the amount and the sender stay private, in keeping
+                donation, so the amount and the sender stay private, in keeping
                 with what this site teaches.
               </p>
 
@@ -157,7 +157,7 @@ export function BuyMeACoffee() {
               </div>
 
               <p className="hint m-0">
-                This is a mainnet address — send from an external wallet such
+                This is a mainnet address. Send from an external wallet such
                 as Zashi or YWallet. The wallet built into this site is
                 testnet-only and cannot pay it.
               </p>

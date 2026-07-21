@@ -9,17 +9,17 @@ import { WarpBackground } from '../components/WarpBackground';
 
 const STEPS = [
   {
-    label: '01 — READ',
+    label: '01 · READ',
     title: 'A short lesson',
-    body: 'Two minutes, starting from zero — the first ones explain like you’re five. No jargon before its time.',
+    body: 'Two minutes, starting from zero. The first ones explain like you’re five, with no jargon before its time.',
   },
   {
-    label: '02 — BUILD',
+    label: '02 · BUILD',
     title: 'Do the real thing',
     body: 'A live shielded wallet is embedded in every challenge. Real keys, real proofs, real testnet blocks.',
   },
   {
-    label: '03 — CLEAR',
+    label: '03 · CLEAR',
     title: 'Steps check themselves',
     body: 'The run panel watches wallet state and ticks steps off as you go. No self-reporting.',
   },
@@ -59,7 +59,7 @@ export default function Home() {
             className="lede rise mx-auto"
             style={{ animationDelay: '210ms' }}
           >
-            No crypto background needed — learn by doing, on a real wallet.
+            No crypto background needed. Learn by doing, on a real wallet.
           </p>
 
           <div
@@ -110,11 +110,10 @@ export default function Home() {
             Arrive knowing nothing. Leave a Zcash contributor.
           </h2>
           <p className="lede">
-            One track, four levels, ten challenges — taken slowly, each
-            assuming only the one before it. And each challenge introduces one
-            real codebase — WebZjs, librustzcash, Zebra, Zaino, orchard — so
-            by the end you know what every library does and have used them
-            all.
+            One track, four levels, ten challenges, taken slowly. Each one
+            assumes only the one before it. Every challenge introduces a real
+            codebase (WebZjs, librustzcash, Zebra, Zaino, orchard), so by the
+            end you know what each library does and have used them all.
           </p>
         </div>
         <div className="grid gap-12 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
@@ -124,7 +123,7 @@ export default function Home() {
                 className="mono text-[12px]"
                 style={{ color: 'var(--gold)' }}
               >
-                {String(i + 1).padStart(2, '0')} — {level.label.toUpperCase()}
+                {String(i + 1).padStart(2, '0')} · {level.label.toUpperCase()}
               </span>
               <p className="m-0 text-[14.5px] leading-[1.6] muted">
                 {level.outcome}
@@ -146,8 +145,9 @@ export default function Home() {
             href: 'https://github.com/Giri-Aayush/speedrun-zcash',
           }}
         >
-          Free and open source under MIT — the challenges, the wallet, and the
-          platform running them. No accounts, no paid tier, nothing to unlock.
+          Free and open source under MIT. That covers the challenges, the
+          wallet, and the platform running them. No accounts, no paid tier,
+          nothing to unlock.
         </Notice>
 
         <div className="flex items-baseline gap-4">
@@ -171,33 +171,33 @@ export default function Home() {
           <h2 className="display text-[28px]">Where this leads</h2>
           <p className="lede">
             Speedrun Zcash is the gym, not the library. Finish the track and
-            the ecosystem is ready for you — codebases, collaborators, and
-            funding included.
+            the ecosystem is ready for you, with codebases, collaborators, and
+            funding all waiting.
           </p>
         </div>
         <div className="grid gap-12 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
           {[
             {
               title: 'Get your work funded',
-              body: 'Zcash Community Grants funds builders shipping on the protocol — capstone projects are exactly the kind of thing it exists for.',
+              body: 'Zcash Community Grants funds builders shipping on the protocol. Capstone projects are exactly what it exists for.',
               label: 'zcashcommunitygrants.org ↗',
               href: 'https://zcashcommunitygrants.org',
             },
             {
               title: 'Build with the core teams',
-              body: 'librustzcash, Zebra, Zaino, WebZjs — the codebases this track trains you for are developed in the open, and the capstone lands your first PR in one.',
+              body: 'librustzcash, Zebra, Zaino, WebZjs. The codebases this track trains you for are developed in the open, and the capstone lands your first PR in one.',
               label: 'github.com/zcash ↗',
               href: 'https://github.com/zcash',
             },
             {
               title: 'Join the conversation',
-              body: 'The community forum is where protocol changes, grants, and new projects get discussed — and where builders find collaborators.',
+              body: 'The community forum is where protocol changes, grants, and new projects get discussed, and where builders find collaborators.',
               label: 'forum.zcashcommunity.com ↗',
               href: 'https://forum.zcashcommunity.com',
             },
             {
               title: 'Prefer reading? ZecHub',
-              body: 'We teach by doing; ZecHub is the community’s encyclopedia — guides, wiki, and ecosystem news. Read there, train here. They compound.',
+              body: 'We teach by doing. ZecHub is the community’s encyclopedia, with guides, a wiki, and ecosystem news. Read there, train here. They compound.',
               label: 'zechub.wiki ↗',
               href: 'https://zechub.wiki',
             },

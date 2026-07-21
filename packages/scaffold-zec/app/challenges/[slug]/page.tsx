@@ -53,7 +53,7 @@ export default function ChallengePage({
         id="proving-time"
         action={{ label: 'faucet ↗', href: 'https://faucet.zecpages.com/' }}
       >
-        Testnet only — these coins are worthless. Zero-knowledge proofs are
+        Testnet only, so these coins are worthless. Zero-knowledge proofs are
         built in this tab, so a send takes around 30 seconds.
       </Notice>
 
@@ -131,8 +131,8 @@ export default function ChallengePage({
             <Alert.Indicator />
             <Alert.Content>
               <Alert.Description>
-                The interactive run panel for this challenge is being built —
-                these steps will check themselves here, the way challenge #0’s
+                The interactive run panel for this challenge is being built.
+                These steps will check themselves here, the way challenge #0’s
                 do. The lesson above is ready now.
               </Alert.Description>
             </Alert.Content>

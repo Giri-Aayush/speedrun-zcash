@@ -70,7 +70,7 @@ export function ChallengeRun({ challenge }: { challenge: Challenge }) {
       );
       if (!mined) {
         setRejection(
-          'no mined outgoing transaction found yet — send one from the wallet below and give it a block to confirm.',
+          'no mined outgoing transaction found yet. Send one from the wallet below and give it a block to confirm.',
         );
         return;
       }
@@ -185,7 +185,7 @@ export function ChallengeRun({ challenge }: { challenge: Challenge }) {
           </div>
         ) : (
           <p className="hint m-0">
-            The embedded wallet boots when this page opens — chain-verified
+            The embedded wallet boots when this page opens, and chain-verified
             steps use it as their evidence.
           </p>
         )}
@@ -195,7 +195,7 @@ export function ChallengeRun({ challenge }: { challenge: Challenge }) {
             <Alert.Indicator />
             <Alert.Content>
               <Alert.Description>
-                Challenge cleared — on to the next rung of the track.
+                Challenge cleared. On to the next rung of the track.
               </Alert.Description>
             </Alert.Content>
           </Alert>

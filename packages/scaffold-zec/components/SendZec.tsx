@@ -36,7 +36,7 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
       <Card.Content className="flex flex-col gap-4">
         <Input
           aria-label="Recipient address"
-          placeholder="Recipient — utest1… or tm…"
+          placeholder="Recipient, utest1… or tm…"
           value={to}
           onChange={(e) => setTo(e.target.value)}
           className="mono"
@@ -88,7 +88,7 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
               </ProgressBar.Track>
             </ProgressBar>
             <span className="hint">
-              Building the proof in this tab — around thirty seconds. Leave the
+              Building the proof in this tab, around thirty seconds. Leave the
               page open.
             </span>
           </div>

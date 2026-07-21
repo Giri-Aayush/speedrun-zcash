@@ -20,7 +20,7 @@ function Dashboard() {
         <Card.Content className="flex items-center gap-3">
           <Spinner size="sm" aria-label="Starting the light client" />
           <span className="muted text-sm">
-            Starting the light client — the proving parameters are a large
+            Starting the light client. The proving parameters are a large
             download the first time.
           </span>
         </Card.Content>
@@ -91,7 +91,7 @@ export default function WalletPage() {
         id="proving-time"
         action={{ label: 'faucet ↗', href: 'https://faucet.zecpages.com/' }}
       >
-        Testnet only — these coins are worthless. Zero-knowledge proofs are
+        Testnet only, so these coins are worthless. Zero-knowledge proofs are
         built in this tab, so a send takes around 30 seconds.
       </Notice>
 

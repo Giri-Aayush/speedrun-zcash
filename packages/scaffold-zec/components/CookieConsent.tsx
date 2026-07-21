@@ -54,7 +54,7 @@ export function CookieConsent() {
               <Switch.Control>
                 <Switch.Thumb />
               </Switch.Control>
-              Essential — always on
+              Essential, always on
             </Switch.Content>
           </Switch>
           <Switch isSelected={analytics} onChange={setAnalytics} size="sm">
@@ -62,7 +62,7 @@ export function CookieConsent() {
               <Switch.Control>
                 <Switch.Thumb />
               </Switch.Control>
-              Analytics — anonymous usage stats
+              Analytics, anonymous usage stats
             </Switch.Content>
           </Switch>
         </div>

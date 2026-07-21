@@ -48,7 +48,7 @@ export function CreateWallet() {
         {mode === 'choose' && (
           <>
             <p className="m-0 text-[14.5px] leading-[1.6] muted">
-              Generated in this tab. The keys never touch a server — which also
+              Generated in this tab. The keys never touch a server, which also
               means nothing can recover them for you.
             </p>
             <div className="flex flex-wrap gap-3">

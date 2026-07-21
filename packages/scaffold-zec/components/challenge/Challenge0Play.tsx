@@ -213,7 +213,7 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Description>
-              Wallet failed to start — is the lightwalletd proxy running?{' '}
+              Wallet failed to start. Is the lightwalletd proxy running?{' '}
               <code>./infra/run-testnet-proxy.sh</code>
             </Alert.Description>
           </Alert.Content>
@@ -241,7 +241,7 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Description>
-              Challenge cleared — and the chain-verified steps were proven
+              Challenge cleared, and the chain-verified steps were proven
               against the chain itself, not taken on your word.
             </Alert.Description>
           </Alert.Content>
