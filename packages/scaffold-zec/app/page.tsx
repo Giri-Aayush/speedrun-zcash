@@ -33,7 +33,6 @@ export default function Home() {
     <main>
       <div className="relative isolate overflow-hidden">
         <CursorTrail />
-        <div className="hero-glow" aria-hidden="true" />
 
         <section className="wrap relative flex flex-col items-center gap-9 pt-28 pb-24 text-center">
           <div className="rise" style={{ animationDelay: '0ms' }}>
@@ -41,6 +40,11 @@ export default function Home() {
           </div>
 
           <div className="hero-frame rise" style={{ animationDelay: '90ms' }}>
+            {/* Background layer — sits inside the border and behind the
+                headline. Point .hero-frame__bg at an image to replace the
+                gradient. */}
+            <div className="hero-frame__bg" aria-hidden="true" />
+
             <span className="hero-bracket hero-bracket--tl" aria-hidden="true" />
             <span className="hero-bracket hero-bracket--tr" aria-hidden="true" />
             <span className="hero-bracket hero-bracket--bl" aria-hidden="true" />
