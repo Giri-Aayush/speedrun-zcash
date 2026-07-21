@@ -6,7 +6,7 @@ import { CursorTrail } from '../components/CursorTrail';
 import { ArrowLink } from '../components/ArrowLink';
 import { Notice } from '../components/Notice';
 import { Faqs } from '../components/Faqs';
-import { HeroBadge } from '../components/HeroBadge';
+import { WarpBackground } from '../components/WarpBackground';
 
 const STEPS = [
   {
@@ -35,15 +35,11 @@ export default function Home() {
         <CursorTrail />
 
         <section className="wrap relative flex flex-col items-center gap-9 pt-28 pb-24 text-center">
-          <div className="rise" style={{ animationDelay: '0ms' }}>
-            <HeroBadge />
-          </div>
-
           <div className="hero-frame rise" style={{ animationDelay: '90ms' }}>
-            {/* Background layer — sits inside the border and behind the
-                headline. Point .hero-frame__bg at an image to replace the
-                gradient. */}
+            {/* Background layers — inside the border, behind the headline:
+                the gold radial wash, with the warp grid running over it. */}
             <div className="hero-frame__bg" aria-hidden="true" />
+            <WarpBackground className="-z-10" />
 
             <span className="hero-bracket hero-bracket--tl" aria-hidden="true" />
             <span className="hero-bracket hero-bracket--tr" aria-hidden="true" />
@@ -51,7 +47,8 @@ export default function Home() {
             <span className="hero-bracket hero-bracket--br" aria-hidden="true" />
 
             <h1 className="hero-title-center">
-              Send a payment <span className="unredact">nobody</span> can see.
+              Go from zero to Zcash{' '}
+              <span className="unredact">contributor</span>.
             </h1>
           </div>
 

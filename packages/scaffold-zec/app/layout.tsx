@@ -6,6 +6,7 @@ import { Footer } from '../components/Footer';
 import { CookieConsent } from '../components/CookieConsent';
 import { Analytics } from '../components/Analytics';
 import { AnimatedNav } from '../components/AnimatedNav';
+import { CornerStatus } from '../components/CornerStatus';
 
 export const metadata: Metadata = {
   title: 'Speedrun Zcash',
@@ -30,6 +31,7 @@ export default function RootLayout({
               begin with generous top padding (.section, hero pt-28), which
               is what keeps content clear of it. */}
           <AnimatedNav />
+          <CornerStatus />
           <div className="h-6" aria-hidden="true" />
 
           {children}
