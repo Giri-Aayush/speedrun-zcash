@@ -698,7 +698,7 @@ export const challenges: Challenge[] = [
     title: 'Your First Upstream Contribution',
     tagline:
       'You have now used every codebase Zcash runs on. Pick the one that suits you and land a real pull request in it.',
-    status: 'soon',
+    status: 'live',
     level: 'capstone',
     skills: ['Ecosystem codebases', 'Rust & TypeScript', 'Open-source workflow'],
     codebase: {
