@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
     config.experiments = { ...config.experiments, asyncWebAssembly: true };
+    // wasm_thread's worker snippet imports the chunk that spawned it, which
+    // trips webpack's "circular hash dependency" check under content hashing.
+    config.optimization = { ...config.optimization, realContentHash: false };
     return config;
   },
   // WebZjs's WASM thread pool needs SharedArrayBuffer, which browsers only

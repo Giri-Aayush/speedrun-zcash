@@ -22,6 +22,7 @@ import React, {
   useState,
 } from 'react';
 import { get, set } from 'idb-keyval';
+import { mnemonicToSeed } from './bip39';
 
 // WebZjs is WASM + SharedArrayBuffer; types only at module level, real
 // modules are dynamically imported in the browser during init.
@@ -104,7 +105,10 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
       const [accountId, b] = summary.account_balances[0];
       patch({
         accountId,
-        fullyScannedHeight: summary.fully_scanned_height ?? null,
+        fullyScannedHeight:
+          summary.fully_scanned_height != null
+            ? BigInt(summary.fully_scanned_height)
+            : null,
         balance: {
           sapling: b.sapling_balance ?? 0,
           orchard: b.orchard_balance ?? 0,
@@ -141,12 +145,8 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       patch({ status: 'initializing' });
       try {
-        const [walletMod, keysMod] = await Promise.all([
-          import('@chainsafe/webzjs-wallet'),
-          import('@chainsafe/webzjs-keys'),
-        ]);
+        const walletMod = await import('@chainsafe/webzjs-wallet');
         await walletMod.default();
-        await keysMod.default();
         if (!crossOriginIsolated) {
           throw new Error(
             'Page is not cross-origin isolated — COOP/COEP headers missing, WASM threads unavailable',
@@ -201,8 +201,8 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
   const createWallet = useCallback(async () => {
     const wallet = walletRef.current;
     if (!wallet) throw new Error('Wallet not initialized');
-    const keysMod = await import('@chainsafe/webzjs-keys');
-    const seedPhrase: string = keysMod.generate_seed_phrase();
+    const { generate_seed_phrase } = await import('@chainsafe/webzjs-wallet');
+    const seedPhrase = generate_seed_phrase();
     // New wallet: birthday = current chain tip (nothing older to scan)
     const height = Number(await wallet.get_latest_block());
     await addAccount(seedPhrase, height);
@@ -244,21 +244,35 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(t);
   }, [state.status, triggerSync]);
 
+  // The wasm build exposes the PCZT flow rather than a one-shot transfer:
+  // create → sign (needs the spending key, derived from the seed) → prove →
+  // send. Proving runs in the browser and takes a few seconds.
   const send = useCallback(
     async (toAddress: string, amountZats: bigint) => {
       const wallet = walletRef.current;
-      const seed = localStorage.getItem(LS_SEED_KEY);
-      if (!wallet || state.accountId === null || !seed)
+      const mnemonic = localStorage.getItem(LS_SEED_KEY);
+      if (!wallet || state.accountId === null || !mnemonic)
         throw new Error('Wallet not ready');
       patch({ sending: true });
       try {
-        await wallet.transfer(
-          seed,
-          ACCOUNT_HD_INDEX,
+        const { pczt_sign, SeedFingerprint, UnifiedSpendingKey } =
+          await import('@chainsafe/webzjs-wallet');
+        const seed = await mnemonicToSeed(mnemonic);
+        const usk = new UnifiedSpendingKey(NETWORK, seed, ACCOUNT_HD_INDEX);
+        const seedFp = new SeedFingerprint(seed);
+
+        let pczt = await wallet.pczt_create(
           state.accountId,
           toAddress,
           amountZats,
         );
+        pczt = await pczt_sign(NETWORK, pczt, usk, seedFp);
+        pczt = await wallet.pczt_prove(
+          pczt,
+          usk.to_sapling_proof_generation_key(),
+        );
+        await wallet.pczt_send(pczt);
+
         await refreshFromWallet();
         await persistDb();
       } finally {

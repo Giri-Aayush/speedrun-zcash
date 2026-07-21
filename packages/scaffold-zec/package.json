@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chainsafe/webzjs-keys": "file:./vendor/webzjs-keys",
     "@chainsafe/webzjs-wallet": "file:./vendor/webzjs-wallet",
     "idb-keyval": "^6.2.1",
     "next": "^15.3.0",
