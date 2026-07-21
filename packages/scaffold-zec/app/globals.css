@@ -326,6 +326,88 @@ a {
   margin-inline: 18px;
 }
 
+/* Notice -------------------------------------------------------------- */
+
+.notice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px 10px 14px;
+  border: 1px solid var(--gold-edge);
+  background: var(--gold-wash);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+
+/* Glyphs tuck behind the notice and fly out on hover. Transitions rather
+   than an animation library — this is the only motion of its kind here. */
+.notice-spark {
+  position: absolute;
+  color: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.35s ease;
+}
+
+.notice-spark--a {
+  top: 2px;
+  left: 6px;
+}
+
+.notice-spark--b {
+  bottom: 2px;
+  left: 5.5rem;
+}
+
+.notice:hover .notice-spark--a {
+  opacity: 0.9;
+  transform: translate(-11px, -11px) rotate(360deg);
+}
+
+.notice:hover .notice-spark--b {
+  opacity: 0.9;
+  transform: translate(11px, 11px) rotate(360deg);
+}
+
+.notice-action {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--gold-edge);
+}
+
+.notice-action:hover {
+  text-decoration-color: var(--accent);
+}
+
+.notice-close {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dim);
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.notice-close:hover {
+  background: rgba(244, 183, 40, 0.12);
+  color: var(--accent);
+}
+
 /* Status ------------------------------------------------------------- */
 
 .dot {

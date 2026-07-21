@@ -9,6 +9,7 @@ import { ShieldedBalance } from '../../components/ShieldedBalance';
 import { AddressDisplay } from '../../components/AddressDisplay';
 import { SendZec } from '../../components/SendZec';
 import { SyncStatus } from '../../components/SyncStatus';
+import { Notice } from '../../components/Notice';
 
 function Dashboard() {
   const { status, error } = useWebZjs();
@@ -74,6 +75,15 @@ export default function WalletPage() {
           .
         </p>
       </div>
+
+      <Notice
+        id="proving-time"
+        action={{ label: 'faucet ↗', href: 'https://faucet.zecpages.com/' }}
+      >
+        Testnet only — these coins are worthless. Zero-knowledge proofs are
+        built in this tab, so a send takes around 30 seconds.
+      </Notice>
+
       <Dashboard />
     </main>
   );

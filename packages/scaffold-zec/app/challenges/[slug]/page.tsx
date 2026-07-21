@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { Chip } from '@heroui/react';
 import { getChallenge } from '../../../lib/challenges';
 import { WalletBoot } from '../../../components/WalletBoot';
+import { Notice } from '../../../components/Notice';
 import { Challenge0Play } from '../../../components/challenge/Challenge0Play';
 
 export default function ChallengePage({
@@ -43,6 +44,14 @@ export default function ChallengePage({
           ))}
         </div>
       </header>
+
+      <Notice
+        id="proving-time"
+        action={{ label: 'faucet ↗', href: 'https://faucet.zecpages.com/' }}
+      >
+        Testnet only — these coins are worthless. Zero-knowledge proofs are
+        built in this tab, so a send takes around 30 seconds.
+      </Notice>
 
       {challenge.lesson.map((section) => (
         <section key={section.heading} className="flex flex-col gap-3">
