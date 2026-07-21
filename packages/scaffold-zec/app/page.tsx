@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { challenges } from '../lib/challenges';
 import { ChallengeRow } from '../components/ChallengeRow';
 import { ChainTip } from '../components/ChainTip';
+import { CursorTrail } from '../components/CursorTrail';
 
 const STEPS = [
   {
@@ -26,7 +27,9 @@ export default function Home() {
 
   return (
     <main>
-      <section className="wrap flex flex-col gap-9 pt-32 pb-24">
+      <div className="relative isolate overflow-hidden">
+        <CursorTrail />
+        <section className="wrap relative flex flex-col gap-9 pt-32 pb-24">
         <div className="eyebrow flex items-center gap-[10px]">
           <span className="dot dot-live" />
           Open source · Zcash testnet · Live
@@ -60,7 +63,8 @@ export default function Home() {
         </div>
 
         <ChainTip />
-      </section>
+        </section>
+      </div>
 
       <div className="wrap">
         <div className="rule" />
