@@ -70,7 +70,7 @@ export default function Home() {
                 styling through its BEM classes rather than becoming buttons. */}
             {first && (
               <ArrowLink href={`/challenges/${first.slug}`}>
-                Start Challenge #{first.number}
+                Start Challenge
               </ArrowLink>
             )}
             <Link
