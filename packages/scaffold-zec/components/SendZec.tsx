@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, Input } from '@heroui/react';
+import { Button, Card, Input, ProgressBar } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { zecToZats } from '../lib/zec';
 
@@ -58,15 +58,32 @@ export function SendZec({ onSent }: { onSent?: () => void }) {
           >
             {sending ? 'Building proof…' : 'Send'}
           </Button>
-          {sending && (
-            <span className="hint">
-              Proving runs in this tab and takes a while — leave it open.
-            </span>
-          )}
           {!sending && spendable === 0 && (
             <span className="hint">Nothing spendable yet.</span>
           )}
         </div>
+
+        {/* Proving gives no progress signal to report, so the bar is
+            indeterminate — it exists to show the tab is still working
+            through a wait that otherwise looks like a hang. */}
+        {sending && (
+          <div className="flex flex-col gap-2">
+            <ProgressBar
+              isIndeterminate
+              aria-label="Building zero-knowledge proof"
+              size="sm"
+              color="accent"
+            >
+              <ProgressBar.Track>
+                <ProgressBar.Fill />
+              </ProgressBar.Track>
+            </ProgressBar>
+            <span className="hint">
+              Building the proof in this tab — around thirty seconds. Leave the
+              page open.
+            </span>
+          </div>
+        )}
 
         {result && <p className="success m-0">{result}</p>}
         {error && <p className="error m-0">{error}</p>}

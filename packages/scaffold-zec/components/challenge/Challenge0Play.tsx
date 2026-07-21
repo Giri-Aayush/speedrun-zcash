@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Card, Chip } from '@heroui/react';
+import { Card, Chip, ProgressBar } from '@heroui/react';
 import type { Challenge } from '../../lib/challenges';
 import { useWebZjs } from '../../lib/WebZjsProvider';
 import { useBuilder } from '../../lib/BuilderProvider';
@@ -138,6 +138,18 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
         </span>
       </Card.Header>
       <Card.Content className="flex flex-col gap-6">
+      <ProgressBar
+        aria-label="Steps cleared"
+        size="sm"
+        color={allDone ? 'success' : 'accent'}
+        maxValue={challenge.steps.length}
+        value={completed}
+      >
+        <ProgressBar.Track>
+          <ProgressBar.Fill />
+        </ProgressBar.Track>
+      </ProgressBar>
+
       <ConnectBuilder />
 
       <ol className="m-0 flex list-none flex-col gap-5 p-0">

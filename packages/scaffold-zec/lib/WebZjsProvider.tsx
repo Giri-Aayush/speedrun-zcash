@@ -74,6 +74,9 @@ export interface WebZjsState {
   balance: AccountBalance | null;
   chainHeight: bigint | null;
   fullyScannedHeight: bigint | null;
+  /** Block the wallet was created at — scanning starts here, not at zero,
+   *  so it is the only sensible floor for a sync percentage. */
+  birthday: number | null;
   syncing: boolean;
   sending: boolean;
 }
@@ -122,6 +125,7 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
     balance: null,
     chainHeight: null,
     fullyScannedHeight: null,
+    birthday: null,
     syncing: false,
     sending: false,
   });
@@ -200,7 +204,11 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
         walletRef.current = wallet;
 
         const seed = localStorage.getItem(LS_SEED_KEY);
-        patch({ seedPhrase: seed });
+        const storedBirthday = localStorage.getItem(LS_BIRTHDAY_KEY);
+        patch({
+          seedPhrase: seed,
+          birthday: storedBirthday ? Number(storedBirthday) : null,
+        });
 
         await refreshFromWallet();
         const summary = await wallet.get_wallet_summary();
@@ -225,6 +233,7 @@ export function WebZjsProvider({ children }: { children: React.ReactNode }) {
       );
       localStorage.setItem(LS_SEED_KEY, seedPhrase);
       localStorage.setItem(LS_BIRTHDAY_KEY, String(birthday));
+      patch({ birthday });
       patch({ seedPhrase });
       await persistDb();
       await refreshFromWallet();
