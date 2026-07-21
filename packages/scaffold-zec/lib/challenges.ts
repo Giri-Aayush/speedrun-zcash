@@ -221,7 +221,7 @@ export const challenges: Challenge[] = [
     title: 'Memo Messenger',
     tagline:
       'Every shielded payment carries a free, encrypted 512-byte note. Use it to turn Zcash into a private messaging layer.',
-    status: 'soon',
+    status: 'live',
     level: 'foundations',
     skills: ['Encrypted memos', 'Trial decryption', 'Viewing keys'],
     codebase: {
