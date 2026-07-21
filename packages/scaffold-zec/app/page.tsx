@@ -29,40 +29,62 @@ export default function Home() {
     <main>
       <div className="relative isolate overflow-hidden">
         <CursorTrail />
-        <section className="wrap relative flex flex-col gap-9 pt-32 pb-24">
-        <div className="eyebrow flex items-center gap-[10px]">
-          <span className="dot dot-live" />
-          Open source · Zcash testnet · Live
-        </div>
+        <div className="hero-glow" aria-hidden="true" />
 
-        <h1 className="hero-title">
-          Send a payment <span style={{ color: 'var(--gold)' }}>nobody</span> can
-          see.
-        </h1>
+        <section className="wrap relative flex flex-col items-center gap-9 pt-28 pb-24 text-center">
+          <div
+            className="eyebrow rise flex items-center gap-[10px]"
+            style={{ animationDelay: '0ms' }}
+          >
+            <span className="dot dot-live" />
+            Open source · Zcash testnet · Live
+          </div>
 
-        <p className="lede">
-          Learn to build privacy apps on Zcash through numbered challenges — with
-          a real shielded wallet running in your browser. Steps clear themselves.
-          Nothing to install.
-        </p>
+          <div className="hero-frame rise" style={{ animationDelay: '90ms' }}>
+            <span className="hero-bracket hero-bracket--tl" aria-hidden="true" />
+            <span className="hero-bracket hero-bracket--tr" aria-hidden="true" />
+            <span className="hero-bracket hero-bracket--bl" aria-hidden="true" />
+            <span className="hero-bracket hero-bracket--br" aria-hidden="true" />
 
-        <div className="flex flex-wrap items-center gap-[18px]">
-          {/* These navigate, so they stay anchors and borrow HeroUI's button
-              styling through its BEM classes rather than becoming buttons. */}
-          {first && (
+            <h1 className="hero-title-center">
+              Send a payment <span className="unredact">nobody</span> can see.
+            </h1>
+          </div>
+
+          <p
+            className="lede rise mx-auto"
+            style={{ animationDelay: '210ms' }}
+          >
+            Learn to build privacy apps on Zcash through numbered challenges —
+            with a real shielded wallet running in your browser. Steps clear
+            themselves. Nothing to install.
+          </p>
+
+          <div
+            className="rise flex flex-wrap items-center justify-center gap-[18px]"
+            style={{ animationDelay: '300ms' }}
+          >
+            {/* These navigate, so they stay anchors and borrow HeroUI's button
+                styling through its BEM classes rather than becoming buttons. */}
+            {first && (
+              <Link
+                href={`/challenges/${first.slug}`}
+                className="button button--primary button--lg"
+              >
+                Start Challenge #{first.number}
+              </Link>
+            )}
             <Link
-              href={`/challenges/${first.slug}`}
-              className="button button--primary button--lg"
+              href="/challenges"
+              className="button button--outline button--lg"
             >
-              Start Challenge #{first.number}
+              View all challenges
             </Link>
-          )}
-          <Link href="/challenges" className="button button--outline button--lg">
-            View all challenges
-          </Link>
-        </div>
+          </div>
 
-        <ChainTip />
+          <div className="rise" style={{ animationDelay: '390ms' }}>
+            <ChainTip />
+          </div>
         </section>
       </div>
 
