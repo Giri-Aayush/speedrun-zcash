@@ -34,7 +34,7 @@ export default function Home() {
         {/* Fills the whole hero viewport, behind the framed headline. */}
         <WarpBackground className="-z-10" />
 
-        <section className="wrap relative flex flex-col items-center gap-9 pt-28 pb-24 text-center">
+        <section className="wrap relative flex min-h-[100svh] flex-col items-center justify-center gap-9 py-28 text-center">
           <div className="hero-frame rise" style={{ animationDelay: '90ms' }}>
             {/* Background layer — sits inside the border and behind the
                 headline. Point .hero-frame__bg at an image to replace the
