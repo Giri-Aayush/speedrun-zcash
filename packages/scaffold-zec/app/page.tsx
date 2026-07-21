@@ -34,7 +34,6 @@ export default function Home() {
       <div className="relative isolate overflow-hidden">
         {/* Fills the whole hero viewport, behind the framed headline. */}
         <WarpBackground className="-z-10" />
-        <CursorTrail />
 
         <section className="wrap relative flex flex-col items-center gap-9 pt-28 pb-24 text-center">
           <div className="hero-frame rise" style={{ animationDelay: '90ms' }}>
@@ -42,6 +41,9 @@ export default function Home() {
                 headline. Point .hero-frame__bg at an image to replace the
                 gradient. */}
             <div className="hero-frame__bg" aria-hidden="true" />
+            {/* Scoped to the block: the canvas covers only the frame, and
+                the ribbon draws only while the pointer is over it. */}
+            <CursorTrail />
 
             <span className="hero-bracket hero-bracket--tl" aria-hidden="true" />
             <span className="hero-bracket hero-bracket--tr" aria-hidden="true" />

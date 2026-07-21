@@ -117,6 +117,10 @@ export function CursorTrail() {
 
     const pointer = { x: 0, y: 0 };
     let seeded = false;
+    // The ribbon exists only inside the parent: outside it we stop drawing
+    // entirely rather than letting the trail chase an unreachable cursor
+    // along the edges.
+    let inside = false;
 
     const resize = () => {
       const rect = parent.getBoundingClientRect();
@@ -154,6 +158,13 @@ export function CursorTrail() {
 
     const track = (clientX: number, clientY: number) => {
       const rect = parent.getBoundingClientRect();
+      inside =
+        clientX >= rect.left &&
+        clientX <= rect.right &&
+        clientY >= rect.top &&
+        clientY <= rect.bottom;
+      if (!inside) return;
+
       pointer.x = clientX - rect.left;
       pointer.y = clientY - rect.top;
       if (!seeded) {
@@ -188,6 +199,13 @@ export function CursorTrail() {
 
       ctx.globalCompositeOperation = 'source-over';
       ctx.clearRect(0, 0, width, height);
+
+      // Pointer is elsewhere on the page: stay blank until it returns.
+      if (!inside) {
+        animation = window.requestAnimationFrame(render);
+        return;
+      }
+
       ctx.globalCompositeOperation = 'lighter';
 
       phase += CONFIG.hue.frequency;
