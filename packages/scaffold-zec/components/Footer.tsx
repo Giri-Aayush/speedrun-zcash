@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BuyMeACoffee } from './BuyMeACoffee';
 
 const REPO = 'https://github.com/Giri-Aayush/speedrun-zcash';
 const AUTHOR = 'https://github.com/Giri-Aayush';
@@ -71,7 +72,7 @@ export function Footer() {
       </div>
 
       <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col items-start gap-1.5">
           <span className="meta">© 2026 Speedrun Zcash · MIT</span>
           <span className="meta">
             Built with <span style={{ color: 'var(--accent)' }}>♥</span> by{' '}
@@ -84,6 +85,7 @@ export function Footer() {
               Aayush Giri
             </a>
           </span>
+          <BuyMeACoffee />
         </div>
 
         <div className="flex flex-col gap-3 lg:items-end">
