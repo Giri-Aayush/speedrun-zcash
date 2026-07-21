@@ -20,7 +20,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable} ${mono.variable}`}
+      className={`dark ${display.variable} ${sans.variable} ${mono.variable}`}
+      data-theme="dark"
     >
       <body>
         <Providers>

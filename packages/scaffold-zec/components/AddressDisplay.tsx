@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Button, Card } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 import { shortenAddress } from '../lib/zec';
 
@@ -20,7 +21,7 @@ function CopyRow({
     <div className="flex flex-col gap-[6px]">
       <span
         className="eyebrow"
-        style={exposed ? { color: 'var(--red)' } : undefined}
+        style={exposed ? { color: 'var(--danger)' } : undefined}
       >
         {label}
       </span>
@@ -28,16 +29,18 @@ function CopyRow({
         <code className="min-w-0 truncate text-[12.5px]" title={value}>
           {shortenAddress(value, 12)}
         </code>
-        <button
-          className="btn btn-ghost btn-small ml-auto"
-          onClick={async () => {
+        <Button
+          size="sm"
+          variant="outline"
+          className="ml-auto"
+          onPress={async () => {
             await navigator.clipboard.writeText(value);
             setCopied(true);
             setTimeout(() => setCopied(false), 1200);
           }}
         >
           {copied ? 'Copied' : 'Copy'}
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -47,22 +50,30 @@ export function AddressDisplay() {
   const { unifiedAddress, transparentAddress } = useWebZjs();
 
   return (
-    <div className="card flex flex-col gap-4">
-      <span className="eyebrow">Receive</span>
-      <CopyRow label="Unified · shielded" value={unifiedAddress} />
-      <CopyRow label="Transparent · visible" value={transparentAddress} exposed />
-      <p className="hint m-0">
-        Fund it from the{' '}
-        <a
-          href="https://faucet.zecpages.com/"
-          target="_blank"
-          rel="noreferrer"
-          style={{ color: 'var(--gold)' }}
-        >
-          testnet faucet
-        </a>
-        . Anything the transparent address touches is public forever.
-      </p>
-    </div>
+    <Card>
+      <Card.Header>
+        <Card.Title className="eyebrow">Receive</Card.Title>
+      </Card.Header>
+      <Card.Content className="flex flex-col gap-4">
+        <CopyRow label="Unified · shielded" value={unifiedAddress} />
+        <CopyRow
+          label="Transparent · visible"
+          value={transparentAddress}
+          exposed
+        />
+        <p className="hint m-0">
+          Fund it from the{' '}
+          <a
+            href="https://faucet.zecpages.com/"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: 'var(--accent)' }}
+          >
+            testnet faucet
+          </a>
+          . Anything the transparent address touches is public forever.
+        </p>
+      </Card.Content>
+    </Card>
   );
 }

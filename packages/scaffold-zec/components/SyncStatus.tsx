@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@heroui/react';
 import { useWebZjs } from '../lib/WebZjsProvider';
 
 export function SyncStatus() {
@@ -26,13 +27,15 @@ export function SyncStatus() {
             ? `${fullyScannedHeight}${chainHeight !== null ? ` / ${chainHeight}` : ''}`
             : 'not synced'}
       </span>
-      <button
-        className="btn btn-ghost btn-small ml-auto"
-        onClick={triggerSync}
-        disabled={syncing}
+      <Button
+        size="sm"
+        variant="outline"
+        className="ml-auto"
+        onPress={triggerSync}
+        isDisabled={syncing}
       >
         Sync
-      </button>
+      </Button>
     </div>
   );
 }

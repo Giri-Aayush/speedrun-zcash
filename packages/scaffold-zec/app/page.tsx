@@ -44,12 +44,17 @@ export default function Home() {
         </p>
 
         <div className="flex flex-wrap items-center gap-[18px]">
+          {/* These navigate, so they stay anchors and borrow HeroUI's button
+              styling through its BEM classes rather than becoming buttons. */}
           {first && (
-            <Link href={`/challenges/${first.slug}`} className="btn btn-primary">
+            <Link
+              href={`/challenges/${first.slug}`}
+              className="button button--primary button--lg"
+            >
               Start Challenge #{first.number}
             </Link>
           )}
-          <Link href="/challenges" className="btn btn-ghost">
+          <Link href="/challenges" className="button button--outline button--lg">
             View all challenges
           </Link>
         </div>

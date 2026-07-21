@@ -3,6 +3,7 @@
 import { use } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Chip } from '@heroui/react';
 import { getChallenge } from '../../../lib/challenges';
 import { WalletBoot } from '../../../components/WalletBoot';
 import { Challenge0Play } from '../../../components/challenge/Challenge0Play';
@@ -36,9 +37,9 @@ export default function ChallengePage({
         <p className="lede">{challenge.tagline}</p>
         <div className="flex flex-wrap gap-2">
           {challenge.skills.map((skill) => (
-            <span key={skill} className="pill">
+            <Chip key={skill} size="sm" variant="soft" className="mono">
               {skill}
-            </span>
+            </Chip>
           ))}
         </div>
       </header>

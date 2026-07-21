@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Card } from '@heroui/react';
 import { useWebZjs } from '../../lib/WebZjsProvider';
 import { WalletBoot } from '../../components/WalletBoot';
 import { CreateWallet } from '../../components/CreateWallet';
@@ -14,26 +15,32 @@ function Dashboard() {
 
   if (status === 'idle' || status === 'initializing') {
     return (
-      <div className="card flex items-center gap-3">
-        <span className="dot dot-busy" />
-        <span className="muted text-sm">
-          Starting the light client — the proving parameters are a large
-          download the first time.
-        </span>
-      </div>
+      <Card>
+        <Card.Content className="flex items-center gap-3">
+          <span className="dot dot-busy" />
+          <span className="muted text-sm">
+            Starting the light client — the proving parameters are a large
+            download the first time.
+          </span>
+        </Card.Content>
+      </Card>
     );
   }
 
   if (status === 'error') {
     return (
-      <div className="card flex flex-col gap-3">
-        <p className="card-title m-0">Wallet failed to start</p>
-        <p className="error m-0">{error}</p>
-        <p className="hint m-0">
-          Most likely no lightwalletd proxy is running. Start one with{' '}
-          <code>./infra/run-testnet-proxy.sh</code> from the repo root.
-        </p>
-      </div>
+      <Card>
+        <Card.Header>
+          <Card.Title className="panel-title">Wallet failed to start</Card.Title>
+        </Card.Header>
+        <Card.Content className="flex flex-col gap-3">
+          <p className="error m-0">{error}</p>
+          <p className="hint m-0">
+            Most likely no lightwalletd proxy is running. Start one with{' '}
+            <code>./infra/run-testnet-proxy.sh</code> from the repo root.
+          </p>
+        </Card.Content>
+      </Card>
     );
   }
 
@@ -61,7 +68,7 @@ export default function WalletPage() {
         <p className="lede">
           A shielded wallet running entirely in this tab. Keys never leave your
           machine. New here? Start with{' '}
-          <Link href="/challenges" style={{ color: 'var(--gold)' }}>
+          <Link href="/challenges" style={{ color: 'var(--accent)' }}>
             the challenges
           </Link>
           .

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Card, Chip } from '@heroui/react';
 import type { Challenge } from '../../lib/challenges';
 import { useWebZjs } from '../../lib/WebZjsProvider';
 import { useBuilder } from '../../lib/BuilderProvider';
@@ -126,17 +127,17 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
   const allDone = completed === challenge.steps.length;
 
   return (
-    <section className="card flex flex-col gap-6">
-      <div className="flex items-baseline gap-4">
-        <h2 className="card-title">Your run</h2>
+    <Card>
+      <Card.Header className="flex items-baseline gap-4">
+        <Card.Title className="panel-title">Your run</Card.Title>
         <span
           className="mono ml-auto text-[12px]"
-          style={{ color: allDone ? 'var(--green)' : 'var(--dim)' }}
+          style={{ color: allDone ? 'var(--success)' : 'var(--dim)' }}
         >
           {completed}/{challenge.steps.length} cleared
         </span>
-      </div>
-
+      </Card.Header>
+      <Card.Content className="flex flex-col gap-6">
       <ConnectBuilder />
 
       <ol className="m-0 flex list-none flex-col gap-5 p-0">
@@ -151,13 +152,19 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
                     {step.title}
                   </span>
                   {verification === 'chain' && (
-                    <span className="pill pill-done">verified on-chain</span>
+                    <Chip size="sm" variant="soft" color="success" className="mono">
+                      verified on-chain
+                    </Chip>
                   )}
                   {verification === 'attested' && (
-                    <span className="pill">self-attested</span>
+                    <Chip size="sm" variant="soft" className="mono">
+                      self-attested
+                    </Chip>
                   )}
                   {pending === step.id && (
-                    <span className="pill pill-live">checking…</span>
+                    <Chip size="sm" variant="soft" color="accent" className="mono">
+                      checking…
+                    </Chip>
                   )}
                 </div>
                 <p className="m-0 text-[14px] leading-[1.6] muted">
@@ -174,7 +181,7 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
                     target="_blank"
                     rel="noreferrer"
                     className="mono text-[12.5px]"
-                    style={{ color: 'var(--gold)' }}
+                    style={{ color: 'var(--accent)' }}
                   >
                     faucet.zecpages.com ↗
                   </a>
@@ -218,6 +225,7 @@ export function Challenge0Play({ challenge }: { challenge: Challenge }) {
           the chain itself, not taken on your word.
         </p>
       )}
-    </section>
+      </Card.Content>
+    </Card>
   );
 }

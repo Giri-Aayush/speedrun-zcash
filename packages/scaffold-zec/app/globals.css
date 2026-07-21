@@ -1,41 +1,73 @@
 @import 'tailwindcss';
+@import '@heroui/styles';
 
-/* The design system below is our own; @heroui/styles is intentionally not
-   imported. The package stays installed for React Aria-backed widgets we may
-   need later (dialogs, comboboxes) — re-add the import alongside the first
-   one that ships. */
-
-:root {
-  --bg: #0a0a0c;
-  --text: #ededf0;
+/**
+ * The design's palette expressed as HeroUI's semantic variables, so its
+ * components inherit the brand instead of being re-skinned one by one.
+ * Applied to both theme selectors because the app is dark-only.
+ */
+:root,
+.dark,
+[data-theme='dark'] {
+  --background: #0a0a0c;
+  --background-secondary: #101013;
+  --background-tertiary: #16161a;
+  --foreground: #ededf0;
   --muted: #8a8b93;
+
+  --border: rgba(255, 255, 255, 0.12);
+  --border-secondary: rgba(255, 255, 255, 0.06);
+  --border-tertiary: rgba(255, 255, 255, 0.05);
+
+  --accent: #f4b728;
+  --accent-foreground: #161000;
+  --accent-hover: #ffc93e;
+  --success: #3fb950;
+  --success-foreground: #06120a;
+  --danger: #f85149;
+  --danger-foreground: #1a0605;
+
+  --field-background: rgba(255, 255, 255, 0.03);
+  --field-border: rgba(255, 255, 255, 0.12);
+  --field-placeholder: #494a51;
+  --field-radius: 10px;
+
+  --radius: 12px;
+  --focus: var(--accent);
+
+  /* Project tokens the design uses beyond HeroUI's vocabulary. */
   --dim: #6f7178;
   --faint: #494a51;
-
-  --gold: #f4b728;
-  --gold-hover: #ffc93e;
-  --gold-ink: #161000;
-  --green: #3fb950;
-  --red: #f85149;
-
   --hairline: rgba(255, 255, 255, 0.06);
   --edge: rgba(255, 255, 255, 0.12);
   --divider: rgba(255, 255, 255, 0.05);
+  --gold: var(--accent);
+  --gold-ink: var(--accent-foreground);
   --gold-wash: rgba(244, 183, 40, 0.03);
   --gold-edge: rgba(244, 183, 40, 0.35);
-
+  --red: var(--danger);
+  --green: var(--success);
   --container: 1080px;
-  --radius: 12px;
 }
 
-* {
-  box-sizing: border-box;
+/* HeroUI ships pill-shaped controls; the design uses soft rectangles.
+   Unlayered rules, so they win over the library's layered defaults.
+   The colour is restated because the `a` reset below is also unlayered and
+   would otherwise wash out link-shaped buttons. */
+.button {
+  border-radius: var(--radius);
+  color: var(--button-fg);
+}
+
+.card {
+  border-radius: 14px;
+  border-color: var(--hairline);
 }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -121,94 +153,14 @@ a {
   color: var(--muted);
 }
 
-/* Controls ----------------------------------------------------------- */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 13px 26px;
-  border-radius: var(--radius);
-  border: 1px solid transparent;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-}
-
-.btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background: var(--gold);
-  color: var(--gold-ink);
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: var(--gold-hover);
-}
-
-.btn-ghost {
-  background: transparent;
-  border-color: var(--edge);
-  color: var(--text);
-  font-weight: 500;
-  padding-inline: 22px;
-}
-
-.btn-ghost:hover:not(:disabled) {
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.btn-small {
-  padding: 7px 14px;
-  font-size: 13px;
-}
-
-:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
-
-/* Pills, cards, rows -------------------------------------------------- */
-
-.pill {
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  border-radius: 99px;
-  padding: 3px 11px;
-  border: 1px solid var(--edge);
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.pill-live {
-  color: var(--gold);
-  border-color: rgba(244, 183, 40, 0.4);
-}
-
-.pill-done {
-  color: var(--green);
-  border-color: rgba(63, 185, 80, 0.4);
-}
-
-.card {
-  border: 1px solid var(--hairline);
-  border-radius: 14px;
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.012);
-}
-
-.card-title {
+.panel-title {
   font-family: var(--font-display), sans-serif;
   font-weight: 600;
   font-size: 19px;
   margin: 0;
 }
+
+/* Challenge rows ------------------------------------------------------ */
 
 .row {
   display: flex;
@@ -253,12 +205,12 @@ a {
 }
 
 .dot-live {
-  background: var(--green);
+  background: var(--success);
   animation: pulseDot 2.4s ease-in-out infinite;
 }
 
 .dot-busy {
-  background: var(--gold);
+  background: var(--accent);
   animation: pulseDot 1s ease-in-out infinite;
 }
 
@@ -277,12 +229,12 @@ a {
 }
 
 .error {
-  color: var(--red);
+  color: var(--danger);
   font-size: 14px;
 }
 
 .success {
-  color: var(--green);
+  color: var(--success);
   font-size: 14px;
 }
 
@@ -294,24 +246,6 @@ a {
 code {
   font-family: var(--font-mono), monospace;
   font-size: 0.9em;
-}
-
-input,
-textarea {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--edge);
-  border-radius: 10px;
-  color: var(--text);
-  font-family: var(--font-mono), monospace;
-  font-size: 14px;
-  padding: 11px 14px;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--faint);
-  font-family: var(--font-sans), sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
