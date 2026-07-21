@@ -494,7 +494,7 @@ export const challenges: Challenge[] = [
     title: 'Run the Stack',
     tagline:
       'Stand up your own node and indexer, then point your wallet at infrastructure you control — and learn what the operator can see.',
-    status: 'soon',
+    status: 'live',
     level: 'protocol',
     skills: ['Zebra node', 'Zaino indexer', 'Self-hosted infra'],
     codebase: {
