@@ -426,7 +426,7 @@ export const challenges: Challenge[] = [
     title: 'Viewing Keys & Selective Disclosure',
     tagline:
       'Privacy is a dial, not a switch — hand an auditor a read-only key to exactly what you choose, and nothing else.',
-    status: 'soon',
+    status: 'live',
     level: 'protocol',
     skills: ['Incoming viewing keys', 'Full viewing keys', 'Auditability'],
     codebase: {
