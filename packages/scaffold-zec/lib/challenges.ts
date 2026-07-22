@@ -494,10 +494,10 @@ export const challenges: Challenge[] = [
     emoji: '🛰️',
     title: 'Run the Stack',
     tagline:
-      'Stand up your own node and indexer, then point your wallet at infrastructure you control, and learn what the operator can see.',
+      'Stand up your own node and indexer, query it directly over RPC, and point your wallet at infrastructure you control.',
     status: 'live',
     level: 'protocol',
-    skills: ['Zebra node', 'Zaino indexer', 'Self-hosted infra'],
+    skills: ['Zebra node', 'JSON-RPC', 'Self-hosted infra', 'Private lookups'],
     codebase: {
       name: 'Zebra & Zaino',
       repo: 'https://github.com/ZcashFoundation/zebra',
@@ -520,6 +520,14 @@ export const challenges: Challenge[] = [
         ],
       },
       {
+        heading: 'Talk to the node directly',
+        body: [
+          'Your node is not just a black box feeding the indexer. It has a JSON-RPC interface you can call yourself, and it is the most direct way to inspect the chain with no wallet and no explorer in between. Ask it the current height, pull a block, check a transaction, all straight from a source you trust because you run it.',
+          'Zebra guards that interface with a cookie. When zebrad starts it writes a small file holding a username and a password, and every request has to present them. The password rotates on every restart, which is a feature and not an annoyance, because a leaked one stops working the moment you reboot. You read the file, take the password half, and hand both to your request.',
+          'The call itself is a plain HTTP POST with a short JSON body naming the method. curl sends it and jq turns the dense answer into something you can read. Keep the RPC bound to localhost in zebrad.toml so only you, or your own private network over something like Tailscale, can reach it.',
+        ],
+      },
+      {
         heading: 'What the operator sees',
         body: [
           'Now that you ARE the operator, audit yourself. Your indexer never sees keys, balances, or memo contents. It does see connecting IP addresses, when they sync, and which transactions they submit. That is real metadata, which is why privacy-conscious users pick their lightwalletd like they pick a DNS provider, and why wallets reach for Tor. Trust, it turns out, was in the stack all along, and now you know exactly where.',
@@ -531,7 +539,14 @@ export const challenges: Challenge[] = [
         id: 'node',
         title: 'Run a Zebra testnet node',
         detail:
-          'Start zebrad on testnet and let it validate to the tip. Watch the logs while it works, with peer connections, block verification, and the chain assembling itself on your disk.',
+          'Configure zebrad.toml first. Bind the RPC to localhost, turn on the auth cookie, and point the data directory at a drive with room. Then start zebrad on testnet and let it validate to the tip, watching the logs while peers connect and blocks verify.',
+        verification: 'attested',
+      },
+      {
+        id: 'query-rpc',
+        title: 'Query your node over RPC',
+        detail:
+          'Read the auth cookie for its password, then curl a getblockchaininfo call to your local zebrad and pipe it through jq. The height it returns is the same tip your wallet syncs to, straight from the source with nothing in between.',
         verification: 'attested',
       },
       {
@@ -546,6 +561,13 @@ export const challenges: Challenge[] = [
         title: 'Sync your wallet against yourself',
         detail:
           'Point your challenge #3 wallet at your own endpoint and sync to the tip. Every layer between your seed and the chain is now yours.',
+        verification: 'attested',
+      },
+      {
+        id: 'private-lookup',
+        title: 'Look things up privately',
+        detail:
+          'Point a block explorer at your own node, or query the transaction over RPC, and search for your challenge #0 payment. Nobody logs the lookup because it never leaves your machine. That is the fix for the metadata leak you found in challenge #1.',
         verification: 'attested',
       },
     ],
